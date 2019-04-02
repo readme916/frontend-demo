@@ -43,6 +43,12 @@ const frameIn = [
           },
           render: h => h()
         }
+      },
+      {
+        path: '/form',
+        name: 'form',
+   
+        component: () => import('@/pages/form')
       }
     ]
   },
