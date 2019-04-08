@@ -47,7 +47,7 @@ const frameIn = [
       {
         path: '/form',
         name: 'form',
-   
+        meta:{title:"表单"},
         component: () => import('@/pages/form')
       }
     ]

@@ -9,7 +9,7 @@ import i18n from './i18n'
 import d2Admin from '@/plugin/d2admin'
 
 // 菜单和路由设置
-import router from './router'
+import router from './router/index'
 import menuHeader from '@/menu/header'
 import menuAside from '@/menu/aside'
 import { frameInRoutes } from '@/router/routes'

@@ -2,7 +2,10 @@
   <d2-container>
     <template slot="header">可配置的表单例子</template>
     <div class="questionnaire">
-      <el-container></el-container>
+      <el-container>
+        <Form1></Form1>
+
+      </el-container>
     </div>
     <template slot="footer">左侧选择，右侧查看</template>
   </d2-container>

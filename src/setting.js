@@ -1,6 +1,16 @@
 export default {
   // 快捷键
   // 支持快捷键 例如 ctrl+shift+s
+
+  oauth2LoginUrl: 'http://localhost:13000/oauth/token',
+  clientId: 'backend',
+  clientSecret: 'backendSecret',
+  grantType: 'password',
+  scope: 'all',
+
+  getMenuUrl: 'http://localhost/user-manange/menu',
+  getAuthorityUrl: '',
+
   hotkey: {
     search: {
       open: 's',

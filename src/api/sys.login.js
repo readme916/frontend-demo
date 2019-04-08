@@ -1,9 +1,17 @@
 import request from '@/plugin/axios'
-
+import setting from '@/setting'
 export function AccountLogin (data) {
   return request({
-    url: '/login',
+    url: setting.oauth2LoginUrl,
     method: 'post',
-    data
+    params: {
+      'grant_type': setting.grantType,
+      'scope': setting.scope,
+      ...data
+    },
+    auth: {
+      username: setting.clientId,
+      password: setting.clientSecret
+    }
   })
 }
