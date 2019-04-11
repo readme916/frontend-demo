@@ -1,5 +1,5 @@
 <template>
-  <el-submenu :index="menu.path || uniqueId">
+  <el-submenu :index="menu.path || 'd2-menu-header-' + menu.uuid">
     <template slot="title">
       <i v-if="menu.icon" :class="`fa fa-${menu.icon}`"></i>
       <i v-if="menu.icon === undefined & !menu.iconSvg" class="fa fa-folder-o"></i>
@@ -28,11 +28,6 @@ export default {
       type: Object,
       required: false,
       default: () => {}
-    }
-  },
-  data () {
-    return {
-      uniqueId: uniqueId('d2-menu-empty-')
     }
   }
 }

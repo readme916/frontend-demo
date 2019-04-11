@@ -8,6 +8,40 @@ const util = {
   log
 }
 
+util.menuConverter = function (menu, recursion) {
+
+  if (!recursion) {
+    return menu.map(m => {
+      return {
+        uuid: m.uuid,
+        title: m.name,
+        icon: m.icon,
+        path: m.url
+      }
+    })
+  } else {
+    return menu.map(m => {
+      if (m.children && m.children!=[] && m.children!='') {
+        return {
+          uuid: m.uuid,
+          title: m.name,
+          icon: m.icon,
+          path: m.url,
+          children: util.menuConverter(m.children,true)
+        }
+      } else {
+        return {
+          uuid: m.uuid,
+          title: m.name,
+          icon: m.icon,
+          path: m.url
+        }
+      }
+    })
+  }
+}
+
+
 /**
  * @description 更新标题
  * @param {String} title 标题

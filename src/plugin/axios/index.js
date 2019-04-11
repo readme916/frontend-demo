@@ -43,7 +43,7 @@ service.interceptors.request.use(
     const token = util.cookies.get('token')
     // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
     if(token){
-      config.headers['Authorization'] = token
+      config.headers['Authorization'] = 'Bearer ' +token
     }
     return config
   },

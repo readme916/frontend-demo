@@ -1,5 +1,6 @@
 // 设置文件
 import setting from '@/setting.js'
+import util from '@/libs/util'
 
 export default {
   namespaced: true,
@@ -8,9 +9,13 @@ export default {
     header: [],
     // 侧栏菜单
     aside: [],
+
+    origin:[],
     // 侧边栏收缩
     asideCollapse: setting.menu.asideCollapse
   },
+
+ 
   actions: {
     /**
      * 设置侧边栏展开或者收缩
@@ -79,6 +84,11 @@ export default {
       // store 赋值
       state.header = menu
     },
+
+    originSet(state,menu){
+      state.origin = menu
+      state.header = util.menuConverter(menu,false)
+    },
     /**
      * @description 设置侧边栏菜单
      * @param {Object} state vuex state
@@ -90,3 +100,4 @@ export default {
     }
   }
 }
+

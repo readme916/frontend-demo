@@ -8,8 +8,9 @@ export default {
   grantType: 'password',
   scope: 'all',
 
-  getMenuUrl: 'http://localhost/user-manange/menu',
-  getAuthorityUrl: '',
+  menuUrl: 'http://localhost/user-management/menu',
+  authorityUrl: '',
+  restPath: 'rest',
 
   hotkey: {
     search: {

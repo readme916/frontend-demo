@@ -1,6 +1,5 @@
-import demo from './modules/demo'
-
 import layoutHeaderAside from '@/layout/header-aside'
+import setting from '@/setting'
 
 /**
  * 在主框架内显示
@@ -45,14 +44,19 @@ const frameIn = [
         }
       },
       {
-        path: '/form',
-        name: 'form',
-        meta:{title:"表单"},
-        component: () => import('@/pages/form')
+        path: '/:application/'+setting.restPath+"/:entity",
+        name: 'list',
+        meta:{auth: true},
+        component: () => import('@/pages/list')
+      },
+      {
+        path: '/:application/'+setting.restPath+"/:entity/:id",
+        name: 'detail',
+        meta:{auth: true},
+        component: () => import('@/pages/detail')
       }
     ]
-  },
-  demo
+  }
 ]
 
 /**
