@@ -1,5 +1,5 @@
 <template>
-  <el-menu-item :index="menu.path || 'd2-menu-header-' + menu.uuid">
+  <el-menu-item :index="menu.path">
     <i v-if="menu.icon" :class="`fa fa-${menu.icon}`"></i>
     <i v-if="menu.icon === undefined & !menu.iconSvg" class="fa fa-file-o"></i>
     <d2-icon-svg v-if="menu.iconSvg" :name="menu.iconSvg"/>

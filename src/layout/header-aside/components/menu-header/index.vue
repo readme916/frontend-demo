@@ -52,7 +52,11 @@ export default {
   watch: {
     '$route.matched': {
       handler (val) {
-        this.active = val[val.length - 1].path
+        if(this.$route.params && this.$route.params.application){
+          this.active = "/"+this.$route.params.application+"/"
+        }else{
+          this.active = val[val.length - 1].path
+        }
       },
       immediate: true
     }
