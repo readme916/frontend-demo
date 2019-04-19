@@ -1,8 +1,8 @@
 import request from '@/plugin/axios'
-
-export function BusinessTable1List (params) {
+import setting from '@/setting'
+export function resourceList (params,application,resource) {
   return request({
-    url: '/demo/business/table/1/fetch',
+    url: setting.baseUrl +'/'+application + "/" + setting.restPath +"/" + resource,
     method: 'get',
     params
   })

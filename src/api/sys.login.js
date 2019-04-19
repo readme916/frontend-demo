@@ -9,6 +9,7 @@ export function AccountLogin (data) {
       'scope': setting.scope,
       ...data
     },
+    headers: {'content-type': 'application/x-www-form-urlencoded'},
     auth: {
       username: setting.clientId,
       password: setting.clientSecret

@@ -63,21 +63,12 @@ export default {
     // 监听路由 控制侧边栏激活状态
     $route: {
       handler(to, from) {
-        if (to.params && to.params.application != from.params.application) {
-          var parent = this.$store.state.d2admin.menu.origin.find(
-            e => e.url == "/" + to.params.application + "/"
-          );
-          if (parent && parent.children) {
-            this.$store.commit(
-              "d2admin/menu/asideSet",
-              util.menuConverter(parent.children, true)
-            );
-          }
-        }
-        this.active = to.fullPath;
+
+        this.$store.commit("d2admin/menu/asideByRouter",to,from)
+        this.active = decodeURIComponent(to.fullPath);
         this.$nextTick(() => {
           if (this.aside.length > 0 && this.$refs.menu) {
-            this.$refs.menu.activeIndex = to.fullPath;
+            this.$refs.menu.activeIndex = decodeURIComponent(to.fullPath);
           }
         });
       },

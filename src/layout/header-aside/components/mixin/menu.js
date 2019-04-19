@@ -1,5 +1,7 @@
 import util from '@/libs/util.js'
-import { mapState } from 'vuex'
+import {
+  mapState
+} from 'vuex'
 export default {
 
   computed: {
@@ -9,15 +11,12 @@ export default {
   },
 
   methods: {
-    handleMenuSelect (index, indexPath) {
+    handleMenuSelect(index, indexPath) {
 
-      if(index === undefined){
+      if (index === undefined) {
         this.$message.warning('临时菜单')
       } else if (/^\/.+\/$/.test(index)) {
-        var parent = this.$store.state.d2admin.menu.origin.find(e => e.url == index)
-        if(parent.children){
-          this.$store.commit('d2admin/menu/asideSet', util.menuConverter(parent.children,true))
-        }
+        this.$store.commit('d2admin/menu/asideByHeaderClick', index)
       } else if (/^https:\/\/|http:\/\//.test(index)) {
         util.open(index)
       } else {

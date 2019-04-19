@@ -1,6 +1,8 @@
 import util from '@/libs/util.js'
 import { AccountLogin } from '@api/sys.login'
 import { Message } from 'element-ui'
+import getMenu from '@/api/sys.menu'
+import getStructure from '@/api/sys.structure'
 export default {
   namespaced: true,
   actions: {
@@ -35,6 +37,17 @@ export default {
             await dispatch('d2admin/user/set', {
               name: username
             }, { root: true })
+
+
+            await getMenu().then(async res => {
+              await vm.$store.dispatch('d2admin/menu/save', res.items)
+            })
+
+            await getStructure().then(async res => {
+              await vm.$store.dispatch('d2admin/structure/save', res)
+            })
+
+         
             // 用户登录后从持久化数据加载一系列的设置
             await dispatch('load')
             // 结束
@@ -60,6 +73,8 @@ export default {
        * @description 注销
        */
       async function logout () {
+        await dispatch('d2admin/menu/save', {}, { root: true })
+        await dispatch('d2admin/structure/save', {},{root:true})
         // 删除cookie
         util.cookies.remove('token')
         util.cookies.remove('uuid')
@@ -103,9 +118,14 @@ export default {
         // DB -> store 加载页面过渡效果设置
         await dispatch('d2admin/transition/load', null, { root: true })
         // DB -> store 持久化数据加载上次退出时的多页列表
-        await dispatch('d2admin/page/openedLoad', null, { root: true })
+        // await dispatch('d2admin/page/openedLoad', null, { root: true })
         // DB -> store 持久化数据加载侧边栏折叠状态
-        await dispatch('d2admin/menu/asideCollapseLoad', null, { root: true })
+        await dispatch('d2admin/menu/load', null, { root: true })
+
+        await dispatch('d2admin/structure/load', null, { root: true })
+
+        // await dispatch('d2admin/menu/asideCollapseLoad', null, { root: true })
+
         // DB -> store 持久化数据加载全局尺寸
         await dispatch('d2admin/size/load', null, { root: true })
         // end

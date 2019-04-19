@@ -1,45 +1,20 @@
 <template>
   <el-form
     :inline="true"
-    :model="form"
+    :model="params"
     :rules="rules"
     ref="form"
     size="mini"
     style="margin-bottom: -18px;">
 
-    <el-form-item label="状态" prop="type">
-      <el-select
-        v-model="form.type"
-        placeholder="状态选择"
-        style="width: 100px;">
-        <el-option label="状态 1" value="1"/>
-        <el-option label="状态 2" value="2"/>
-        <el-option label="状态 3" value="3"/>
-        <el-option label="状态 4" value="4"/>
-        <el-option label="状态 5" value="5"/>
-      </el-select>
-    </el-form-item>
-
-    <el-form-item label="用户" prop="user">
+    <template v-for="(field) in structure.listFilters">
+    <el-form-item :label="field.label" :prop="field.prop" :key="field.prop">
       <el-input
-        v-model="form.user"
-        placeholder="用户"
-        style="width: 100px;"/>
-    </el-form-item>
-
-    <el-form-item label="卡密" prop="key">
-      <el-input
-        v-model="form.key"
-        placeholder="卡密"
+        v-model="params[field.prop+'['+field.relationship.toLowerCase()+']']"
+        placeholder=""
         style="width: 120px;"/>
     </el-form-item>
-
-    <el-form-item label="备注" prop="note">
-      <el-input
-        v-model="form.note"
-        placeholder="备注"
-        style="width: 120px;"/>
-    </el-form-item>
+    </template>
 
     <el-form-item>
       <el-button
@@ -63,18 +38,26 @@
 
 <script>
 export default {
+
+  props:{
+    structure:{
+      default: () => {}
+    },
+    params:{
+      default: () => {}
+    }
+  },
+
   data () {
     return {
+      rules:{},
       form: {
         type: '1',
         user: 'FairyEver',
         key: '',
         note: ''
       },
-      rules: {
-        type: [ { required: true, message: '请选择一个状态', trigger: 'change' } ],
-        user: [ { required: true, message: '请输入用户', trigger: 'change' } ]
-      }
+ 
     }
   },
   methods: {

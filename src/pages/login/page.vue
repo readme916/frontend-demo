@@ -90,6 +90,7 @@
 </template>
 
 <script>
+
 import dayjs from 'dayjs'
 import { mapActions } from 'vuex'
 export default {
@@ -102,8 +103,8 @@ export default {
       users: [
         {
           name: '管理员',
-          username: 'admin',
-          password: 'admin'
+          username: 'root',
+          password: 'root'
         },
         {
           name: '编辑',
@@ -118,8 +119,8 @@ export default {
       ],
       // 表单
       formLogin: {
-        username: 'admin',
-        password: 'admin',
+        username: 'root',
+        password: 'root',
         code: 'v9am'
       },
       // 校验

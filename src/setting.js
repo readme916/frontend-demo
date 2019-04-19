@@ -1,15 +1,20 @@
+var baseUrl = 'http://localhost';
+
+
+
 export default {
   // 快捷键
   // 支持快捷键 例如 ctrl+shift+s
 
-  oauth2LoginUrl: 'http://localhost:13000/oauth/token',
+  oauth2LoginUrl: baseUrl+'/oauth2/oauth/token',
   clientId: 'backend',
   clientSecret: 'backendSecret',
   grantType: 'password',
   scope: 'all',
 
-  menuUrl: 'http://localhost/user-management/menu',
-  authorityUrl: '',
+  baseUrl: baseUrl,
+  menuUrl: baseUrl + '/firewall/menu',
+  structureUrl: baseUrl + '/firewall/structure',
   restPath: 'rest',
 
   hotkey: {
@@ -73,6 +78,6 @@ export default {
   },
   // 是否默认开启页面切换动画
   transition: {
-    active: true
+    active: false
   }
 }

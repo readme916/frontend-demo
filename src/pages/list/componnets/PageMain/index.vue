@@ -53,94 +53,21 @@
         type="selection"
         width="55">
       </el-table-column>
-
-      <el-table-column label="卡密" :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          {{scope.row.key}}
+      <template v-for='(col) in structure.listColumns'>
+          <el-table-column
+            :show-overflow-tooltip="true"
+            :prop="col.prop"
+            :label="col.label"
+            :key="col.prop"
+            :width="col.width > 0 ? col.width:null">
+          </el-table-column>
         </template>
-      </el-table-column>
+        <el-table-column label="操作" width="80" align="center">
+          <template slot-scope="scope">
+            <el-button size="mini" class="del-com" @click="delTabColOne()" ><i class="iconfont icon-shanchu"></i></el-button>
+          </template>
+        </el-table-column>
 
-      <el-table-column label="面值" width="60" align="center">
-        <template slot-scope="scope">
-          <el-tag
-            size="mini"
-            type="success">
-            {{scope.row.value}}
-          </el-tag>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="状态" width="50" align="center">
-        <template slot-scope="scope">
-          <boolean-control
-            :value="scope.row.type"
-            @change="(val) => {
-              handleSwitchChange(val, scope.$index)
-            }">
-            <d2-icon
-              name="check-circle"
-              style="font-size: 20px; line-height: 32px; color: #67C23A;"
-              slot="active"/>
-            <d2-icon
-              name="times-circle"
-              style="font-size: 20px; line-height: 32px; color: #F56C6C;"
-              slot="inactive"/>
-          </boolean-control>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="状态" width="50" align="center">
-        <template slot-scope="scope">
-          <boolean-control-mini
-            :value="scope.row.type"
-            @change="(val) => {
-              handleSwitchChange(val, scope.$index)
-            }">
-            <d2-icon
-              name="check-circle"
-              style="font-size: 20px; line-height: 32px; color: #67C23A;"
-              slot="active"/>
-            <d2-icon
-              name="times-circle"
-              style="font-size: 20px; line-height: 32px; color: #F56C6C;"
-              slot="inactive"/>
-          </boolean-control-mini>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="管理员" width="60">
-        <template slot-scope="scope">
-          {{scope.row.admin}}
-        </template>
-      </el-table-column>
-
-      <el-table-column label="管理员备注" :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          {{scope.row.adminNote}}
-        </template>
-      </el-table-column>
-
-      <el-table-column label="创建时间" width="150" :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          {{scope.row.dateTimeCreat}}
-        </template>
-      </el-table-column>
-
-      <el-table-column label="使用状态" width="100" align="center">
-        <template slot-scope="scope">
-          <el-tag
-            size="mini"
-            :type="scope.row.used ? 'info' : ''">
-            {{scope.row.used ? '已使用' : '未使用'}}
-          </el-tag>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="使用时间" width="150" :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          {{scope.row.dateTimeUse}}
-        </template>
-      </el-table-column>
 
     </el-table>
   </div>
@@ -149,6 +76,7 @@
 <script>
 import BooleanControl from '../BooleanControl'
 import BooleanControlMini from '../BooleanControlMini'
+
 export default {
   components: {
     BooleanControl,
@@ -160,8 +88,13 @@ export default {
     },
     loading: {
       default: false
+    },
+    structure:{
+      default: ()=>{}
     }
   },
+
+ 
   data () {
     return {
       currentTableData: [],
@@ -178,6 +111,10 @@ export default {
       ]
     }
   },
+  
+
+
+
   watch: {
     tableData: {
       handler (val) {

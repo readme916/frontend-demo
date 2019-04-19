@@ -14,10 +14,6 @@ import {
   frameInRoutes
 } from '@/router/routes'
 
-import {
-  getMenu
-} from '@api/sys.menu'
-
 
 // 核心插件
 Vue.use(d2Admin)
@@ -30,7 +26,6 @@ new Vue({
   created() {
     // 处理路由 得到每一级的路由设置
     this.$store.commit('d2admin/page/init', frameInRoutes)
-    this.initMenu()
   },
   mounted() {
     // 展示系统信息
@@ -41,13 +36,6 @@ new Vue({
     this.$store.commit('d2admin/ua/get')
     // 初始化全屏监听
     this.$store.dispatch('d2admin/fullscreen/listen')
-  },
-
-  methods: {
-    initMenu: function () {
-      getMenu().then(res => {
-        this.$store.commit('d2admin/menu/originSet', res.items)
-      })
-    }
   }
+
 }).$mount('#app')

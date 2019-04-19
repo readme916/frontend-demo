@@ -10,6 +10,9 @@ const util = {
 
 util.menuConverter = function (menu, recursion) {
 
+  if(Object.keys(menu).length === 0){
+    return []
+  }
   if (!recursion) {
     return menu.map(m => {
       return {

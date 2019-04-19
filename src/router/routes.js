@@ -44,13 +44,13 @@ const frameIn = [
         }
       },
       {
-        path: '/:application/'+setting.restPath+"/:entity",
+        path: '/:application/'+setting.restPath+"/:resource",
         name: 'list',
         meta:{auth: true},
         component: () => import('@/pages/list')
       },
       {
-        path: '/:application/'+setting.restPath+"/:entity/:id",
+        path: '/:application/'+setting.restPath+"/:resource/:id",
         name: 'detail',
         meta:{auth: true},
         component: () => import('@/pages/detail')
