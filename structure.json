@@ -1,0 +1,314 @@
+{
+    "user-management": {
+        "userInfo": {
+            "name": "userInfo",
+            "label": "用户信息",
+            "detailListColumns": [],
+            "detailColumns": [],
+            "listFilters": [],
+            "fieldDetailMap": {},
+            "listColumns": []
+        },
+        "role": {
+            "name": "role",
+            "label": "角色",
+            "detailListColumns": [],
+            "detailColumns": [],
+            "listFilters": [],
+            "fieldDetailMap": {},
+            "listColumns": []
+        },
+        "user": {
+            "name": "user",
+            "label": "用户",
+            "detailListColumns": [
+                {
+                    "name": "username",
+                    "prop": "username",
+                    "label": "用户名",
+                    "width": 0,
+                    "order": 1,
+                    "listTemplate": "",
+                    "detailTemplate": ""
+                }
+            ],
+            "detailColumns": [
+                {
+                    "name": "userInfo",
+                    "prop": "userInfo",
+                    "label": "用户信息",
+                    "width": 0,
+                    "order": -10,
+                    "listTemplate": "",
+                    "detailTemplate": ""
+                },
+                {
+                    "name": "username",
+                    "prop": "username",
+                    "label": "用户名",
+                    "width": 0,
+                    "order": 1,
+                    "listTemplate": "",
+                    "detailTemplate": ""
+                },
+                {
+                    "name": "client",
+                    "prop": "client",
+                    "label": "客户端",
+                    "width": 0,
+                    "order": 100,
+                    "listTemplate": "",
+                    "detailTemplate": ""
+                },
+                {
+                    "name": "country",
+                    "prop": "country",
+                    "label": "国家",
+                    "width": 0,
+                    "order": 200,
+                    "listTemplate": "",
+                    "detailTemplate": ""
+                },
+                {
+                    "name": "enabled",
+                    "prop": "enabled",
+                    "label": "开启",
+                    "width": 0,
+                    "order": 201,
+                    "listTemplate": "",
+                    "detailTemplate": ""
+                },
+                {
+                    "name": "nickname",
+                    "prop": "nickname",
+                    "label": "昵称",
+                    "width": 0,
+                    "order": 301,
+                    "listTemplate": "",
+                    "detailTemplate": ""
+                }
+            ],
+            "listFilters": [
+                {
+                    "name": "userInfo",
+                    "relationship": "GT",
+                    "prop": "userInfo.age",
+                    "label": "用户的年龄大于",
+                    "order": -1,
+                    "formItem": "INPUT"
+                },
+                {
+                    "name": "username",
+                    "relationship": "EQ",
+                    "prop": "username",
+                    "label": "用户名",
+                    "order": 2,
+                    "formItem": "INPUT"
+                },
+                {
+                    "name": "country",
+                    "relationship": "EQ",
+                    "prop": "country",
+                    "label": "所属国家单选",
+                    "order": 100,
+                    "formItem": "SELECT"
+                },
+                {
+                    "name": "country",
+                    "relationship": "IN",
+                    "prop": "country",
+                    "label": "所属国家多选",
+                    "order": 200,
+                    "formItem": "CHECKBOX"
+                }
+            ],
+            "fieldDetailMap": {
+                "country": {
+                    "dataType": "ENUM",
+                    "joinType": null,
+                    "targetEntityName": null,
+                    "constrants": [
+                        {
+                            "required": true,
+                            "type": "STRING",
+                            "max": 0,
+                            "min": 0,
+                            "message": "请选择一项",
+                            "trigger": "blur,change"
+                        }
+                    ],
+                    "values": [
+                        {
+                            "value": "CHINA",
+                            "label": "中国"
+                        },
+                        {
+                            "value": "AMERICAN",
+                            "label": "美国"
+                        }
+                    ]
+                },
+                "userInfo": {
+                    "dataType": "OBJECT",
+                    "joinType": "ONE_TO_ONE",
+                    "targetEntityName": "userInfo",
+                    "constrants": null,
+                    "values": null
+                },
+                "createdAt": {
+                    "dataType": "DATE",
+                    "joinType": null,
+                    "targetEntityName": null,
+                    "constrants": [
+                        {
+                            "required": false,
+                            "type": "DATE",
+                            "max": 0,
+                            "min": 0,
+                            "message": "请选择时间",
+                            "trigger": "blur,change"
+                        }
+                    ],
+                    "values": null
+                },
+                "nickname": {
+                    "dataType": "STRING",
+                    "joinType": null,
+                    "targetEntityName": null,
+                    "constrants": [
+                        {
+                            "required": false,
+                            "type": "STRING",
+                            "max": 0,
+                            "min": 0,
+                            "message": "请输入信息",
+                            "trigger": "blur,change"
+                        }
+                    ],
+                    "values": null
+                },
+                "client": {
+                    "dataType": "STRING",
+                    "joinType": null,
+                    "targetEntityName": null,
+                    "constrants": [
+                        {
+                            "required": false,
+                            "type": "STRING",
+                            "max": 0,
+                            "min": 0,
+                            "message": "请输入信息",
+                            "trigger": "blur,change"
+                        }
+                    ],
+                    "values": null
+                },
+                "enabled": {
+                    "dataType": "BOOLEAN",
+                    "joinType": null,
+                    "targetEntityName": null,
+                    "constrants": [
+                        {
+                            "required": false,
+                            "type": "BOOLEAN",
+                            "max": 0,
+                            "min": 0,
+                            "message": "请输入真假",
+                            "trigger": "blur,change"
+                        }
+                    ],
+                    "values": null
+                },
+                "username": {
+                    "dataType": "STRING",
+                    "joinType": null,
+                    "targetEntityName": null,
+                    "constrants": [
+                        {
+                            "required": true,
+                            "type": "STRING",
+                            "max": 0,
+                            "min": 0,
+                            "message": "请输入信息",
+                            "trigger": "blur,change"
+                        },
+                        {
+                            "required": null,
+                            "type": "STRING",
+                            "max": 10,
+                            "min": 2,
+                            "message": "长度在 2 到 10 个字符",
+                            "trigger": "blur,change"
+                        }
+                    ],
+                    "values": null
+                }
+            },
+            "listColumns": [
+                {
+                    "name": "userInfo",
+                    "prop": "userInfo.school",
+                    "label": "用户的学校",
+                    "width": 0,
+                    "order": -1,
+                    "listTemplate": "",
+                    "detailTemplate": ""
+                },
+                {
+                    "name": "username",
+                    "prop": "username",
+                    "label": "用户名",
+                    "width": 0,
+                    "order": 1,
+                    "listTemplate": "",
+                    "detailTemplate": ""
+                },
+                {
+                    "name": "userInfo",
+                    "prop": "userInfo.age",
+                    "label": "用户的年龄",
+                    "width": 0,
+                    "order": 10,
+                    "listTemplate": "",
+                    "detailTemplate": ""
+                },
+                {
+                    "name": "client",
+                    "prop": "client",
+                    "label": "客户端",
+                    "width": 0,
+                    "order": 100,
+                    "listTemplate": "",
+                    "detailTemplate": ""
+                },
+                {
+                    "name": "country",
+                    "prop": "country",
+                    "label": "国家",
+                    "width": 0,
+                    "order": 200,
+                    "listTemplate": "",
+                    "detailTemplate": ""
+                },
+                {
+                    "name": "enabled",
+                    "prop": "enabled",
+                    "label": "开启",
+                    "width": 0,
+                    "order": 201,
+                    "listTemplate": "",
+                    "detailTemplate": ""
+                },
+                {
+                    "name": "createdAt",
+                    "prop": "createdAt",
+                    "label": "创建时间",
+                    "width": 0,
+                    "order": 401,
+                    "listTemplate": "",
+                    "detailTemplate": ""
+                }
+            ]
+        }
+    }
+}
