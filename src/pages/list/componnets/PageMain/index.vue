@@ -64,7 +64,7 @@
         </template>
         <el-table-column label="操作" width="80" align="center">
           <template slot-scope="scope">
-            <el-button size="mini" class="del-com" @click="delTabColOne()" ><i class="iconfont icon-shanchu"></i></el-button>
+            <el-button size="mini"  @click="gotoDetail(scope.row)" >详情</el-button>
           </template>
         </el-table-column>
 
@@ -91,7 +91,9 @@ export default {
     },
     structure:{
       default: ()=>{}
-    }
+    },
+    application:"",
+    resource:""
   },
 
  
@@ -112,9 +114,6 @@ export default {
     }
   },
   
-
-
-
   watch: {
     tableData: {
       handler (val) {
@@ -124,6 +123,16 @@ export default {
     }
   },
   methods: {
+     gotoDetail(row) {
+             this.$router.push({
+            name: 'detail',
+            params: {
+              application: this.application,
+              resource: this.resource,
+              id: row.uuid
+            }
+          })
+      },
     handleSwitchChange (val, index) {
       const oldValue = this.currentTableData[index]
       this.$set(this.currentTableData, index, {

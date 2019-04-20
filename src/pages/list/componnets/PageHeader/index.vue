@@ -2,81 +2,107 @@
   <el-form
     :inline="true"
     :model="params"
-    :rules="rules"
-    ref="form"
+    ref="listFilterForm"
     size="mini"
-    style="margin-bottom: -18px;">
-
+    style="margin-bottom: -18px;"
+  >
     <template v-for="(field) in structure.listFilters">
-    <el-form-item :label="field.label" :prop="field.prop" :key="field.prop">
-      <el-input
-        v-model="params[field.prop+'['+field.relationship.toLowerCase()+']']"
-        placeholder=""
-        style="width: 120px;"/>
-    </el-form-item>
+      <el-form-item
+        v-if="field.formItem == 'INPUT'"
+        :label="field.label" 
+        :key= "field.prop+'['+field.relationship.toLowerCase()+']'" 
+      >
+        <el-input
+          v-model="params[field.prop+'['+field.relationship.toLowerCase()+']']"
+          placeholder
+          style="width: 120px;"
+        />
+      </el-form-item>
+
+      <el-form-item
+        v-else-if="field.formItem == 'SELECT'"
+        :label="field.label"
+        :key= "field.prop+'['+field.relationship.toLowerCase()+']'" 
+      >
+        <el-select clearable 
+          v-model="params[field.prop+'['+field.relationship.toLowerCase()+']']"
+          placeholder="请选择">
+          <el-option
+            v-for="item in structure.fieldDetailMap[field.name].values"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+
+
+ <el-form-item
+        v-else-if="field.formItem == 'CHECKBOX'"
+        :label="field.label"
+        :key= "field.prop+'['+field.relationship.toLowerCase()+']'" 
+      >
+        <el-checkbox-group 
+          v-model="params[field.prop+'['+field.relationship.toLowerCase()+']']"
+          placeholder="请选择">
+          <el-checkbox
+            v-for="item in structure.fieldDetailMap[field.name].values"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+            </el-checkbox>
+        </el-checkbox-group >
+      </el-form-item>
+
+
     </template>
 
     <el-form-item>
-      <el-button
-        type="primary"
-        @click="handleFormSubmit">
-        <d2-icon name="search"/>
-        查询
+      <el-button type="primary" @click="handleFormSubmit('listFilterForm')">
+        <d2-icon name="search"/>查询
       </el-button>
     </el-form-item>
 
     <el-form-item>
-      <el-button
-        @click="handleFormReset">
-        <d2-icon name="refresh"/>
-        重置
+      <el-button @click="handleFormReset('listFilterForm')">
+        <d2-icon name="refresh"/>重置
       </el-button>
     </el-form-item>
-
   </el-form>
 </template>
 
 <script>
 export default {
-
-  props:{
-    structure:{
+  props: {
+    structure: {
       default: () => {}
     },
-    params:{
+    params: {
       default: () => {}
     }
   },
 
-  data () {
-    return {
-      rules:{},
-      form: {
-        type: '1',
-        user: 'FairyEver',
-        key: '',
-        note: ''
-      },
- 
-    }
-  },
   methods: {
-    handleFormSubmit () {
-      this.$refs.form.validate((valid) => {
+    handleFormSubmit(name) {
+      this.$refs[name].validate(valid => {
         if (valid) {
-          this.$emit('submit', this.form)
+          this.$emit("submit");
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '表单校验失败'
-          })
-          return false
+            title: "错误",
+            message: "表单校验失败"
+          });
+          return false;
         }
-      })
+      });
     },
-    handleFormReset () {
-      this.$refs.form.resetFields()
+    handleFormReset(name) {
+      for (var k in this.params){
+        if(k.endsWith(']')){
+          this.params[k]=''
+        }
+      }
     }
   }
-}
+};
 </script>

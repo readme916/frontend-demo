@@ -46,13 +46,13 @@ const frameIn = [
       {
         path: '/:application/'+setting.restPath+"/:resource",
         name: 'list',
-        meta:{auth: true},
+        meta:{auth: true , cache:true},
         component: () => import('@/pages/list')
       },
       {
         path: '/:application/'+setting.restPath+"/:resource/:id",
         name: 'detail',
-        meta:{auth: true},
+        meta:{auth: true, cache:true},
         component: () => import('@/pages/detail')
       }
     ]
