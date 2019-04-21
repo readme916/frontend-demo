@@ -1,11 +1,11 @@
 var baseUrl = 'http://localhost';
 
 
-
 export default {
   // 快捷键
   // 支持快捷键 例如 ctrl+shift+s
-
+  
+  title : "交易管理端",
   oauth2LoginUrl: baseUrl+'/oauth2/oauth/token',
   clientId: 'backend',
   clientSecret: 'backendSecret',

@@ -13,6 +13,8 @@
       :application="data.application"
       :resource="data.resource"
       :structure="data.structure"
+      :params="data.params"
+      @submit="handleSubmit"
     />
     <page-footer
       v-show="pager"
@@ -44,7 +46,7 @@ export default {
       datas: [],
       data: {
         structure: {},
-        params: { page: 0, size: 20 }
+        params: { page: 0, size: 20 ,sort:''}
       }
     };
   },
@@ -74,14 +76,17 @@ export default {
         data.structure = this.$store.getters[
           "d2admin/structure/resourceStructure"
         ](to.params.application, to.params.resource);
+        
+        if(data.structure && data.structure.listFilters ){
 
-        data.structure.listFilters.forEach(i => {
-          if (i.formItem == "CHECKBOX") {
-            data.params[i.prop + "[" + i.relationship.toLowerCase() + "]"] = [];
-          } else {
-            data.params[i.prop + "[" + i.relationship.toLowerCase() + "]"] = "";
-          }
-        });
+          data.structure.listFilters.forEach(i => {
+            if (i.formItem == "CHECKBOX") {
+              data.params[i.prop + "[" + i.relationship.toLowerCase() + "]"] = [];
+            } else {
+              data.params[i.prop + "[" + i.relationship.toLowerCase() + "]"] = "";
+            }
+          });
+        }
 
         Object.keys(to.query).forEach(key => {
           if (decodeURI(to.query[key]) != "*") {
@@ -91,7 +96,10 @@ export default {
               data.params[key] = 0;
             } else if (key == "size") {
               data.params[key] = 20;
+            } else if(key == 'sort'){
+              data.params[key]=''
             }
+             
           }
         });
         return data;

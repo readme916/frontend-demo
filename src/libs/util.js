@@ -1,6 +1,7 @@
 import cookies from './util.cookies'
 import db from './util.db'
 import log from './util.log'
+import setting from '@/setting'
 
 const util = {
   cookies,
@@ -24,7 +25,7 @@ util.menuConverter = function (menu, recursion) {
     })
   } else {
     return menu.map(m => {
-      if (m.children && m.children!=[] && m.children!='') {
+      if (m.children && Object.keys(menu).length !== 0) {
         return {
           uuid: m.uuid,
           title: m.name,
@@ -50,8 +51,8 @@ util.menuConverter = function (menu, recursion) {
  * @param {String} title 标题
  */
 util.title = function (titleText) {
-  const processTitle = process.env.VUE_APP_TITLE || 'D2Admin'
-  window.document.title = `${processTitle}${titleText ? ` | ${titleText}` : ''}`
+  
+  window.document.title = setting.title
 }
 
 /**

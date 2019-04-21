@@ -12,7 +12,6 @@ export default {
 
   methods: {
     handleMenuSelect(index, indexPath) {
-
       if (index === undefined) {
         this.$message.warning('临时菜单')
       } else if (/^\/.+\/$/.test(index)) {

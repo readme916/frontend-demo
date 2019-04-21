@@ -1,7 +1,7 @@
 // 设置文件
 import setting from '@/setting.js'
 import util from '@/libs/util'
-
+import getMenu from '@/api/sys.menu'
 export default {
   namespaced: true,
   state: {
@@ -10,58 +10,31 @@ export default {
     // 侧栏菜单
     aside: [],
 
-    origin: [],
+    tree: [],
     // 侧边栏收缩
     asideCollapse: setting.menu.asideCollapse
   },
 
 
   actions: {
-
-
     load({
       state,
       dispatch
     }) {
       return new Promise(async resolve => {
-        // 持久化
-        state.origin = await dispatch('d2admin/db/get', {
-          dbName: 'sys',
-          path: 'menu.origin',
-          defaultValue: {},
-          user: true
-        }, {
-          root: true
+        await getMenu().then(async res => {
+          state.tree =  util.menuConverter(res.items,true)
         })
-        state.header = util.menuConverter(state.origin, false)
-        // end
+
+        state.header = state.tree.map(e => {
+          return {uuid: e.uuid,
+          title: e.title,
+          icon: e.icon,
+          path: e.path}
+        })
         resolve()
       })
     },
-    save({
-      state,
-      dispatch
-    }, origin) {
-
-
-      state.origin = origin
-      state.header = util.menuConverter(origin, false)
-
-      return new Promise(async resolve => {
-        // 持久化
-        await dispatch('d2admin/db/set', {
-          dbName: 'sys',
-          path: 'menu.origin',
-          value: origin,
-          user: true
-        }, {
-          root: true
-        })
-        // end
-        resolve()
-      })
-    },
-
 
     /**
      * 设置侧边栏展开或者收缩
@@ -136,28 +109,11 @@ export default {
     }
   },
   mutations: {
-    /**
-     * @description 设置侧边栏菜单
-     * @param {Object} state vuex state
-     * 
-     */
-    asideByRouter(state, to, from) {
-      if (to.params.application != undefined) {
-
-        var parent = state.origin.find(
-          e => e.url == "/" + to.params.application + "/"
-        );
-        if (parent && parent.children) {
-          state.aside = util.menuConverter(parent.children, true)
-        }
-      }
-    },
-
+   
     asideByHeaderClick(state, index) {
-
-      var parent = state.origin.find(e => e.url == index)
-      if (parent.children) {
-        state.aside = util.menuConverter(parent.children, true)
+      var parent = state.tree.find(e => e.path == index)
+      if (parent && parent.children) {
+        state.aside = parent.children
       }
     }
   }

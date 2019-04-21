@@ -53,7 +53,19 @@
             </el-checkbox>
         </el-checkbox-group >
       </el-form-item>
-
+ <el-form-item
+        v-else-if="field.formItem == 'DATE_PICKER'"
+        :label="field.label"
+        :key= "field.prop+'['+field.relationship.toLowerCase()+']'" 
+      >
+        <el-date-picker
+      v-model="params[field.prop+'['+field.relationship.toLowerCase()+']']"
+      type="date"
+      placeholder="选择日期"
+      value-format="yyyy-MM-dd"
+      >
+    </el-date-picker>
+      </el-form-item>
 
     </template>
 
