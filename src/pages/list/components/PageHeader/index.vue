@@ -9,8 +9,8 @@
     <template v-for="(field) in structure.listFilters">
       <el-form-item
         v-if="field.formItem == 'INPUT'"
-        :label="field.label" 
-        :key= "field.prop+'['+field.relationship.toLowerCase()+']'" 
+        :label="field.label"
+        :key="field.prop+'['+field.relationship.toLowerCase()+']'"
       >
         <el-input
           v-model="params[field.prop+'['+field.relationship.toLowerCase()+']']"
@@ -22,11 +22,13 @@
       <el-form-item
         v-else-if="field.formItem == 'SELECT'"
         :label="field.label"
-        :key= "field.prop+'['+field.relationship.toLowerCase()+']'" 
+        :key="field.prop+'['+field.relationship.toLowerCase()+']'"
       >
-        <el-select clearable 
+        <el-select
+          clearable
           v-model="params[field.prop+'['+field.relationship.toLowerCase()+']']"
-          placeholder="请选择">
+          placeholder="请选择"
+        >
           <el-option
             v-for="item in structure.fieldDetailMap[field.name].values"
             :key="item.value"
@@ -36,37 +38,35 @@
         </el-select>
       </el-form-item>
 
-
- <el-form-item
+      <el-form-item
         v-else-if="field.formItem == 'CHECKBOX'"
         :label="field.label"
-        :key= "field.prop+'['+field.relationship.toLowerCase()+']'" 
+        :key="field.prop+'['+field.relationship.toLowerCase()+']'"
       >
-        <el-checkbox-group 
+        <el-checkbox-group
           v-model="params[field.prop+'['+field.relationship.toLowerCase()+']']"
-          placeholder="请选择">
+          placeholder="请选择"
+        >
           <el-checkbox
             v-for="item in structure.fieldDetailMap[field.name].values"
             :key="item.value"
             :label="item.label"
-            :value="item.value">
-            </el-checkbox>
-        </el-checkbox-group >
+            :value="item.value"
+          ></el-checkbox>
+        </el-checkbox-group>
       </el-form-item>
- <el-form-item
+      <el-form-item
         v-else-if="field.formItem == 'DATE_PICKER'"
         :label="field.label"
-        :key= "field.prop+'['+field.relationship.toLowerCase()+']'" 
+        :key="field.prop+'['+field.relationship.toLowerCase()+']'"
       >
         <el-date-picker
-      v-model="params[field.prop+'['+field.relationship.toLowerCase()+']']"
-      type="date"
-      placeholder="选择日期"
-      value-format="yyyy-MM-dd"
-      >
-    </el-date-picker>
+          v-model="params[field.prop+'['+field.relationship.toLowerCase()+']']"
+          type="date"
+          placeholder="选择日期"
+          value-format="yyyy-MM-dd"
+        ></el-date-picker>
       </el-form-item>
-
     </template>
 
     <el-form-item>
@@ -109,9 +109,9 @@ export default {
       });
     },
     handleFormReset(name) {
-      for (var k in this.params){
-        if(k.endsWith(']')){
-          this.params[k]=''
+      for (var k in this.params) {
+        if (k.endsWith("]")) {
+          this.params[k] = "";
         }
       }
     }

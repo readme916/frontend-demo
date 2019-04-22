@@ -1,38 +1,12 @@
 <template>
   <div>
     <el-form :inline="true" size="mini">
-      <el-form-item :label="`已选数据下载 [ ${currentTableData.length} ]`">
+      <el-form-item>
         <el-button-group>
-          <el-button
-            type="primary"
-            size="mini"
-            :disabled="currentTableData.length === 0"
-            @click="handleDownloadXlsx(currentTableData)"
-          >xlsx</el-button>
-          <el-button
-            type="primary"
-            size="mini"
-            :disabled="currentTableData.length === 0"
-            @click="handleDownloadCsv(currentTableData)"
-          >csv</el-button>
+        <el-button v-for="(event) in events" size="small" type="primary" round :key="event.label">{{event.label}}</el-button>
         </el-button-group>
       </el-form-item>
-      <el-form-item :label="`已选数据下载 [ ${multipleSelection.length} ]`">
-        <el-button-group>
-          <el-button
-            type="primary"
-            size="mini"
-            :disabled="multipleSelection.length === 0"
-            @click="handleDownloadXlsx(multipleSelection)"
-          >xlsx</el-button>
-          <el-button
-            type="primary"
-            size="mini"
-            :disabled="multipleSelection.length === 0"
-            @click="handleDownloadCsv(multipleSelection)"
-          >csv</el-button>
-        </el-button-group>
-      </el-form-item>
+      
     </el-form>
 
     <el-table
@@ -52,16 +26,9 @@
           :label="col.label"
           :key="col.prop"
           :width="col.width > 0 ? col.width:null"
-          :formatter="formatter"
-          :sortable="col.sortable?'custom':false"
-         
-        >
+          :sortable="col.sortable?'custom':false">
           <template slot-scope="scope">
-            <el-tag
-              v-if="columnformat(scope.column)=='BOOLEAN'"
-              :type="formatter(scope.row,scope.column)?'success':'danger'"
-            >{{formatter(scope.row,scope.column)?'是':"否"}}</el-tag>
-            <span v-else v-text="formatter(scope.row,scope.column)"></span>
+            <itemFormatter :application="application" :resource="resource" :field="scope.column.property" :data="scope.row"/>
           </template>
         </el-table-column>
       </template>
@@ -77,11 +44,12 @@
 <script>
 import BooleanControl from "../BooleanControl";
 import BooleanControlMini from "../BooleanControlMini";
-
+import itemFormatter from '@/pages/common/itemFormatter'
 export default {
   components: {
     BooleanControl,
-    BooleanControlMini
+    BooleanControlMini,
+    itemFormatter,
   },
   props: {
     tableData: {
@@ -98,6 +66,7 @@ export default {
     params:{
       default: () => {}
     },
+    events:[]
   },
 
   data() {
@@ -128,8 +97,6 @@ export default {
   methods: {
 
       sortChange: function(column, prop, order){
-      console.log(column.prop); //prop标签 => nickname
-      console.log(column.order);//descending降序、ascending升序
       if(column.order == 'descending'){
         this.params.sort = column.prop+",desc"
       }else  if(column.order == 'ascending'){
@@ -138,39 +105,6 @@ export default {
         this.params.sort = ''
       }
        this.$emit("submit");
-    },
-
-    columnformat: function(column) {
-      column = column.property;
-      if (column.indexOf(".") != -1) {
-        if (
-          this.structure.fieldDetailMap[column.split(".")[0]].dataType ==
-          "OBJECT"
-        ) {
-          var targetName = this.structure.fieldDetailMap[column.split(".")[0]]
-            .targetEntityName;
-          var targetStructure = this.$store.getters[
-            "d2admin/structure/resourceStructure"
-          ](this.application, targetName);
-          if (Object.keys(targetStructure.fieldDetailMap).length != 0) {
-            if (targetStructure.fieldDetailMap[column.split(".")[1]]) {
-              return targetStructure.fieldDetailMap[column.split(".")[1]]
-                .dataType;
-            }
-          }
-        }
-      } else {
-        return this.structure.fieldDetailMap[column].dataType;
-      }
-    },
-
-    formatter(row, column) {
-      var o = eval("row." + column.property);
-      if (this.columnformat(column) == "DATE") {
-        return this.$options.filters.date_format(new Date(o));
-      } else {
-        return o;
-      }
     },
 
     gotoDetail(row) {

@@ -14,6 +14,7 @@
       :resource="data.resource"
       :structure="data.structure"
       :params="data.params"
+      :events = "data.events"
       @submit="handleSubmit"
     />
     <page-footer
@@ -24,6 +25,7 @@
       :total="data.total"
       @change="handlePaginationChange"
     />
+
   </d2-container>
 </template>
 
@@ -35,9 +37,10 @@ export default {
   // name 值和本页的 $route.name 一致才可以缓存页面
   name: "list",
   components: {
-    PageHeader: () => import("./componnets/PageHeader"),
-    PageMain: () => import("./componnets/PageMain"),
-    PageFooter: () => import("./componnets/PageFooter")
+    PageHeader: () => import("./components/PageHeader"),
+    PageMain: () => import("./components/PageMain"),
+    PageFooter: () => import("./components/PageFooter"),
+   
   },
 
   data() {
@@ -71,6 +74,7 @@ export default {
           total: 0,
           params: {},
           structure: {},
+          events:[],
           fetched:false
         };
         data.structure = this.$store.getters[
@@ -110,29 +114,14 @@ export default {
       let data;
       if (!appStructure) {
         this.datas[application] = {};
-        this.datas[application][resource] = {};
-        this.datas[application][resource][
-          to.fullPath
-        ] = data = initDataStructure(to);
-      } else {
-        appStructure = this.datas[application][resource];
-        if (!appStructure) {
-          this.datas[application][resource] = {};
-          this.datas[application][resource][
-            to.fullPath
-          ] = data = initDataStructure(to);
-        } else {
-          appStructure = this.datas[application][resource][to.fullPath];
-          if (!appStructure) {
-            this.datas[application][resource][
-              to.fullPath
-            ] = data = initDataStructure(to);
-          } else {
-            data = this.datas[application][resource][to.fullPath];
-          }
-        }
       }
-      this.data = data;
+      if (!this.datas[application][resource]) {
+          this.datas[application][resource] = {};
+      }
+      if (!this.datas[application][resource][to.fullPath]) {
+          this.datas[application][resource][to.fullPath] = initDataStructure(to);
+      } 
+      this.data =  this.datas[application][resource][to.fullPath];
     },
 
     handlePaginationChange(val) {
@@ -176,6 +165,7 @@ export default {
             title: "表格数据请求完毕"
           });
           this.data.table = res.items;
+          this.data.events= res.events;
           this.data.total = res.total;
           this.data.fetched = true
         })
