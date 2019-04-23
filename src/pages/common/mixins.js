@@ -1,10 +1,5 @@
 export default {
-    computed:{
-        structure: function(){
-            return this.$store.state.d2admin.structure.structure
-        } 
-    },
-
+   
     methods:{
 
         enumLabel:function(field,v){
@@ -83,6 +78,20 @@ export default {
               return this.getValue(data,field);
             }
           }
+    },
+    computed:{
+      structure: function(){
+        return this.$store.state.d2admin.structure.structure
+    } ,
+      label: function(){
+        return this.getLabel(this.item,this.field)
+      },
+      value: function(){
+         return this.getValue(this.item,this.field)
+      },
+      format: function(){
+        return this.columnFormat(this.field)
+      }
     }
 
 }

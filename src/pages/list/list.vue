@@ -1,31 +1,8 @@
 <template>
   <d2-container :filename="filename">
-    <page-header
-      slot="header"
-      @submit="handleSubmit"
-      ref="header"
-      :structure="data.structure"
-      :params="data.params"
-    />
-    <page-main
-      :table-data="data.table"
-      :loading="data.loading"
-      :application="data.application"
-      :resource="data.resource"
-      :structure="data.structure"
-      :params="data.params"
-      :events = "data.events"
-      @submit="handleSubmit"
-    />
-    <page-footer
-      v-show="pager"
-      slot="footer"
-      :current="data.params.page+1"
-      :size="data.params.size"
-      :total="data.total"
-      @change="handlePaginationChange"
-    />
-
+    <page-header slot="header" @submit="handleSubmit" ref="header" :structure="data.structure" :params="data.params" />
+    <page-main :table-data="data.table" :loading="data.loading" :application="data.application" :resource="data.resource" :structure="data.structure" :params="data.params" :events="data.events" @submit="handleSubmit" />
+    <page-footer v-show="pager" slot="footer" :current="data.params.page+1" :size="data.params.size" :total="data.total" @change="handlePaginationChange" />
   </d2-container>
 </template>
 
@@ -40,7 +17,7 @@ export default {
     PageHeader: () => import("./components/PageHeader"),
     PageMain: () => import("./components/PageMain"),
     PageFooter: () => import("./components/PageFooter"),
-   
+
   },
 
   data() {
@@ -49,13 +26,13 @@ export default {
       datas: [],
       data: {
         structure: {},
-        params: { page: 0, size: 20 ,sort:''}
+        params: { page: 0, size: 20, sort: '' }
       }
     };
   },
 
   computed: {
-    pager: function() {
+    pager: function () {
       if (this.data.params.page != undefined) {
         return true;
       } else {
@@ -73,16 +50,12 @@ export default {
           resource: to.params.resource,
           total: 0,
           params: {},
-          structure: {},
-          events:[],
-          fetched:false
+          structure: this.$store.getters["d2admin/structure/resourceStructure"](to.params.application, to.params.resource),
+          events: [],
+          fetched: false
         };
-        data.structure = this.$store.getters[
-          "d2admin/structure/resourceStructure"
-        ](to.params.application, to.params.resource);
-        
-        if(data.structure && data.structure.listFilters ){
 
+        if (data.structure && data.structure.listFilters) {
           data.structure.listFilters.forEach(i => {
             if (i.formItem == "CHECKBOX") {
               data.params[i.prop + "[" + i.relationship.toLowerCase() + "]"] = [];
@@ -100,28 +73,26 @@ export default {
               data.params[key] = 0;
             } else if (key == "size") {
               data.params[key] = 20;
-            } else if(key == 'sort'){
-              data.params[key]=''
+            } else if (key == 'sort') {
+              data.params[key] = ''
             }
-             
+
           }
         });
         return data;
       };
       let application = to.params.application
       let resource = to.params.resource
-      let appStructure = this.datas[application];
-      let data;
-      if (!appStructure) {
+      if (!this.datas[application]) {
         this.datas[application] = {};
       }
       if (!this.datas[application][resource]) {
-          this.datas[application][resource] = {};
+        this.datas[application][resource] = {};
       }
       if (!this.datas[application][resource][to.fullPath]) {
-          this.datas[application][resource][to.fullPath] = initDataStructure(to);
-      } 
-      this.data =  this.datas[application][resource][to.fullPath];
+        this.datas[application][resource][to.fullPath] = initDataStructure(to);
+      }
+      this.data = this.datas[application][resource][to.fullPath];
     },
 
     handlePaginationChange(val) {
@@ -142,10 +113,10 @@ export default {
             name = i.substring(0, i.indexOf("["));
           }
           var enums = this.data.structure.fieldDetailMap[name].values;
-          
+
           var arr = [];
           for (var e in enums) {
-            if (newObj[i].indexOf(enums[e].label)!=-1) {
+            if (newObj[i].indexOf(enums[e].label) != -1) {
               arr.push(enums[e].value);
             }
           }
@@ -165,7 +136,7 @@ export default {
             title: "表格数据请求完毕"
           });
           this.data.table = res.items;
-          this.data.events= res.events;
+          this.data.events = res.events;
           this.data.total = res.total;
           this.data.fetched = true
         })
@@ -186,10 +157,10 @@ export default {
     if (application && resource) {
       next(instance => {
         instance.switchData(to)
-        if(instance.data.fetched==false){
+        if (instance.data.fetched == false) {
           instance.handleSubmit()
         }
-        });
+      });
     } else {
       next(new Error("未指定application"));
     }
@@ -200,7 +171,7 @@ export default {
     const resource = to.params.resource;
     if (application && resource) {
       this.switchData(to);
-      if(this.data.fetched==false){
+      if (this.data.fetched == false) {
         this.handleSubmit()
       }
       next();

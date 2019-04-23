@@ -1,10 +1,10 @@
 <template>
   <span>
-    <el-tag v-if="columnFormat(field)=='BOOLEAN'"
-      :type="getValue(data,field)?'success':'danger'"
-    >{{getLabel(data,field)}}
+    <el-tag v-if="format=='BOOLEAN'"
+      :type="value?'success':'danger'"
+    >{{label}}
     </el-tag>
-    <span v-else>{{getLabel(data,field)}}</span>
+    <span v-else>{{label}}</span>
   </span>
 </template>
 <script>
@@ -15,7 +15,8 @@ export default {
     application: "",
     resource: "",
     field: "",
-    data: {}
-  }
+    item: {}
+  },
+
 };
 </script>

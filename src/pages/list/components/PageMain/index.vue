@@ -2,7 +2,7 @@
   <div>
     <el-form :inline="true" size="mini">
       <el-form-item>
-        <el-button-group>
+        <el-button-group v-if="events">
         <el-button v-for="(event) in events" size="small" type="primary" round :key="event.label">{{event.label}}</el-button>
         </el-button-group>
       </el-form-item>
@@ -28,7 +28,7 @@
           :width="col.width > 0 ? col.width:null"
           :sortable="col.sortable?'custom':false">
           <template slot-scope="scope">
-            <itemFormatter :application="application" :resource="resource" :field="scope.column.property" :data="scope.row"/>
+            <itemFormatter :application="application" :resource="resource" :field="scope.column.property" :item="scope.row"/>
           </template>
         </el-table-column>
       </template>
@@ -66,7 +66,7 @@ export default {
     params:{
       default: () => {}
     },
-    events:[]
+    events:null
   },
 
   data() {
