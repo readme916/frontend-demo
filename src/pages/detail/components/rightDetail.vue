@@ -1,51 +1,85 @@
 <template>
   <el-container>
-    <el-header>
-      <el-button-group v-if="detail">
-        <template v-for="(event) in detail.events">
-          <el-button size="small" type="primary" round :key="event.label">{{event.label}}</el-button>
-        </template>
-      </el-button-group>
-    </el-header>
-    <el-main>
-      <el-form v-if="detail">
-        <template v-for="(item) in structure.detailColumns">
-          <el-form-item :label="item.label" :prop="item.prop" :key="item.prop">
-            <div v-if="isEditable(item.name)">editable</div>
-            <itemFormatter :application="application" :resource="resource" :field="item.prop" :item="detail" />
-          </el-form-item>
-        </template>
-      </el-form>
-    </el-main>
+    <page-main v-bind="data" @submit="handleSubmit" />
+    <!-- <page-footer v-show="pager" slot="footer" :current="data.params.page+1" :size="data.params.size" :total="data.total" @change="handlePaginationChange" /> -->
   </el-container>
 </template>
 <script>
 import itemFormatter from '@/pages/common/itemFormatter'
+import formFormatter from '@/pages/common/formFormatter'
 export default {
 
   components: {
-    itemFormatter
+    itemFormatter,
+      formFormatter
   },
-  props: {
-    detail:null,
-    application:'',
-    resource:'',
-    id:'',
-    subResource:"",
-    structure:{},
-    relationship:""
+props: {
+    detail: {
+      edit: false
+    }
   },
 
- data: function () {
-  return {
-    edit: false
-  }
-},
-  methods:{
-    isEditable: function(name){
-      var fields = this.detail.events.find(e=>e.name=="update").fields
-      if(fields.indexOf(name)!=-1){
+
+  computed: {
+    localDetail: function () {
+      return this.detail
+    }
+  },
+
+   methods: {
+
+    eventClick: function (event) {
+      if (event.name == "update") {
+        this.toggleEdit()
+      }
+    },
+
+
+    editSubmit: function () {
+
+      this.$refs['leftDetailForm'].validate((valid) => {
+        if (valid) {
+          var fields = this.detail.data.events.find(e => e.name == "update").fields
+          var data = {};
+          for (var f in fields) {
+            data[fields[f]] = this.detail.data[fields[f]]
+
+          }
+          resourcePost(this.detail.application, this.detail.resource, this.detail.id, data).then(() => {
+            resourceDetail(this.detail.application, this.detail.resource, this.detail.id).then(res => {
+              this.detail.data = res
+              this.$notify({
+                title: "数据成功修改"
+              });
+            })
+
+          })
+          this.toggleEdit()
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+
+
+    },
+    editCancel: function () {
+      resourceDetail(this.detail.application, this.detail.resource, this.detail.id).then(res => {
+        this.detail.data = res
+        this.toggleEdit()
+      })
+    },
+
+    toggleEdit: function () {
+      this.localDetail.edit = !this.localDetail.edit
+    },
+
+    isEditable: function (name) {
+      var fields = this.localDetail.data.events.find(e => e.name == "update").fields
+      if (fields.indexOf(name) != -1) {
         return true;
+      } else {
+        return false
       }
     }
   }

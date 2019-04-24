@@ -10,7 +10,7 @@
     </el-form>
 
     <el-table
-      :data="currentTableData"
+      :data="table"
       v-loading="loading"
       size="mini"
       stripe
@@ -52,7 +52,7 @@ export default {
     itemFormatter,
   },
   props: {
-    tableData: {
+    table: {
       default: () => []
     },
     loading: {
@@ -86,14 +86,7 @@ export default {
     };
   },
 
-  watch: {
-    tableData: {
-      handler(val) {
-        this.currentTableData = val;
-      },
-      immediate: true
-    }
-  },
+
   methods: {
 
       sortChange: function(column, prop, order){
@@ -117,14 +110,8 @@ export default {
         }
       });
     },
-    handleSwitchChange(val, index) {
-      const oldValue = this.currentTableData[index];
-      this.$set(this.currentTableData, index, {
-        ...oldValue,
-        type: val
-      });
-      // 注意 这里并没有把修改后的数据传递出去 如果需要的话请自行修改
-    },
+ 
+ 
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },

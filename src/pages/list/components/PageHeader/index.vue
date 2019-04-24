@@ -70,13 +70,13 @@
     </template>
 
     <el-form-item>
-      <el-button type="primary" @click="handleFormSubmit('listFilterForm')">
+      <el-button type="primary" @click="handleFormSubmit()">
         <d2-icon name="search"/>查询
       </el-button>
     </el-form-item>
 
     <el-form-item>
-      <el-button @click="handleFormReset('listFilterForm')">
+      <el-button @click="handleFormReset()">
         <d2-icon name="refresh"/>重置
       </el-button>
     </el-form-item>
@@ -95,8 +95,8 @@ export default {
   },
 
   methods: {
-    handleFormSubmit(name) {
-      this.$refs[name].validate(valid => {
+    handleFormSubmit() {
+      this.$refs["listFilterForm"].validate(valid => {
         if (valid) {
           this.$emit("submit");
         } else {
@@ -108,7 +108,7 @@ export default {
         }
       });
     },
-    handleFormReset(name) {
+    handleFormReset() {
       for (var k in this.params) {
         if (k.endsWith("]")) {
           this.params[k] = "";

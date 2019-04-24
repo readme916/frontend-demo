@@ -1,12 +1,12 @@
 <template>
   <d2-container>
     <el-container>
-      <el-aside width="60%">
-        <leftDetail v-bind="data.leftDetail" />
+      <el-aside width="50%">
+        <leftDetail :detail="data.leftDetail" @resourceClick="subResourceToggle" />
       </el-aside>
 
       <el-main>
-  <leftDetail v-bind="data.rightDetail" />
+        <leftDetail :detail="data.rightDetail" />
 
       </el-main>
     </el-container>
@@ -34,6 +34,17 @@ export default {
   },
 
   methods: {
+
+    subResourceToggle: function(resourceName){
+
+      this.rightDetail.application = this.leftDetail.application
+      this.rightDetail.resource = this.leftDetail.resource
+      this.rightDetail.id = this.leftDetail.id
+      this.rightDetail.subResource = resourceName
+      
+      this.data.rightDetail = resourceName
+    },
+
     switchData(to) {
       var initDataStructure = to => {
         let data = {
@@ -42,8 +53,8 @@ export default {
             resource: to.params.resource,
             id: to.params.id,
             structure: this.$store.getters["d2admin/structure/resourceStructure"](to.params.application, to.params.resource),
-            detail: null,
-            edit:null
+            data: null,
+            edit:false
           },
           rightDetail: {
             relationship: "",
@@ -52,8 +63,9 @@ export default {
             id:"",
             subResource:"",
             structure: {},
-            detail: null,
-            edit:null
+            data: null,
+            edit:false,
+            mode:{}
           }
         };
         return data;
@@ -70,13 +82,12 @@ export default {
       if (!this.datas[application][resource][id]) {
         this.datas[application][resource][id] = initDataStructure(to);
       }
-      if (!this.datas[application][resource][id]['leftDetail']["detail"]) {
+      if (!this.datas[application][resource][id]['leftDetail']["data"]) {
         resourceDetail(application, resource, id).then(res => {
           this.$notify({
             title: "数据请求完毕"
           });
-          this.datas[application][resource][id]["leftDetail"]["detail"] = res;
-          this.datas[application][resource][id]["leftDetail"]["edit"] = JSON.parse(JSON.stringify(res));
+          this.datas[application][resource][id]["leftDetail"]["data"] = res;
         });
       }
       this.data = this.datas[application][resource][id];

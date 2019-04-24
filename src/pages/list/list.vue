@@ -1,7 +1,7 @@
 <template>
   <d2-container :filename="filename">
     <page-header slot="header" @submit="handleSubmit" ref="header" :structure="data.structure" :params="data.params" />
-    <page-main :table-data="data.table" :loading="data.loading" :application="data.application" :resource="data.resource" :structure="data.structure" :params="data.params" :events="data.events" @submit="handleSubmit" />
+    <page-main v-bind="data" @submit="handleSubmit" />
     <page-footer v-show="pager" slot="footer" :current="data.params.page+1" :size="data.params.size" :total="data.total" @change="handlePaginationChange" />
   </d2-container>
 </template>
