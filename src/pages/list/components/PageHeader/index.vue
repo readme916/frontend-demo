@@ -5,7 +5,7 @@
     ref="listFilterForm"
     size="mini"
     style="margin-bottom: -18px;"
-  >
+    v-if="Object.keys(structure.listFilters).length!=0">
     <template v-for="(field) in structure.listFilters">
       <el-form-item
         v-if="field.formItem == 'INPUT'"

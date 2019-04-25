@@ -6,7 +6,7 @@
       </el-aside>
 
       <el-main>
-        <leftDetail :detail="data.rightDetail" />
+        <rightDetail :detail="data.rightDetail" />
 
       </el-main>
     </el-container>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { resourceDetail } from "@api/resource.detail";
+import { resourceDetail, subResourceList, subResourceDetail } from "@api/resource.get";
 export default {
   name: "detail",
 
@@ -35,14 +35,16 @@ export default {
 
   methods: {
 
-    subResourceToggle: function(resourceName){
-
-      this.rightDetail.application = this.leftDetail.application
-      this.rightDetail.resource = this.leftDetail.resource
-      this.rightDetail.id = this.leftDetail.id
-      this.rightDetail.subResource = resourceName
-      
-      this.data.rightDetail = resourceName
+    subResourceToggle: function (resourceName) {
+      this.data.rightDetail.application = this.data.leftDetail.application
+      this.data.rightDetail.resource = this.data.leftDetail.resource
+      this.data.rightDetail.id = this.data.leftDetail.id
+      this.data.rightDetail.subResource = resourceName
+      this.data.rightDetail.mode = this.data.leftDetail.data.resources[resourceName]
+      this.data.rightDetail.relationship = this.data.leftDetail.structure.fieldDetailMap[resourceName].joinType
+      var targetName = this.data.leftDetail.structure.fieldDetailMap[resourceName]
+        .targetEntityName;
+      this.data.rightDetail.structure = this.$store.state.d2admin.structure.structure[this.data.rightDetail.application][targetName]
     },
 
     switchData(to) {
@@ -54,18 +56,19 @@ export default {
             id: to.params.id,
             structure: this.$store.getters["d2admin/structure/resourceStructure"](to.params.application, to.params.resource),
             data: null,
-            edit:false
+            edit: false
           },
           rightDetail: {
             relationship: "",
             application: "",
             resource: "",
-            id:"",
-            subResource:"",
+            id: "",
+            subResource: "",
             structure: {},
             data: null,
-            edit:false,
-            mode:{}
+            edit: false,
+            mode: {},
+            multipleSelection:[],
           }
         };
         return data;

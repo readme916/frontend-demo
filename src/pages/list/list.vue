@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { resourceList } from "@api/resource.list";
+import { resourceList } from "@api/resource.get";
 import { mapState, mapGetters } from "vuex";
 import { resolve } from "url";
 export default {
@@ -66,7 +66,9 @@ export default {
         }
 
         Object.keys(to.query).forEach(key => {
-          if (decodeURI(to.query[key]) != "*") {
+          if (key == "fields") {
+            data.params[key] = decodeURI(to.query[key]);
+          } else if (decodeURI(to.query[key]) != "*") {
             data.params[key] = to.query[key];
           } else {
             if (key == "page") {
@@ -124,11 +126,12 @@ export default {
         }
       }
       resourceList(
+
+        this.data.application,
+        this.data.resource,
         {
           ...newObj
         },
-        this.data.application,
-        this.data.resource
       )
         .then(res => {
           this.data.loading = false;

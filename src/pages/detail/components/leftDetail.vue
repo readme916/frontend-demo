@@ -14,7 +14,7 @@
           <div v-if="!detail.edit || !isEditable(item.prop) " :key="item.prop">
             <el-form-item :label="item.label" :prop="item.prop">
               <itemFormatter :application="detail.application" :resource="detail.resource" :field="item.prop" :item="detail.data" />
-              <el-button size="small" type="primary" @click="resourceClick(item.name)" v-if="detail.structure.fieldDetailMap[item.name] && detail.structure.fieldDetailMap[item.name].dataType=='OBJECT'">查看</el-button>
+              <el-button size="small" type="primary" @click="resourceClick(item.name)" v-if="detail.structure.fieldDetailMap[item.prop] && detail.structure.fieldDetailMap[item.prop].dataType=='OBJECT'">查看</el-button>
             </el-form-item>
           </div>
           <div v-else :key="item.prop">
@@ -36,7 +36,7 @@
 import itemFormatter from '@/pages/common/itemFormatter'
 import formFormatter from '@/pages/common/formFormatter'
 import { resourcePost } from '@/api/resource.post'
-import { resourceDetail } from "@api/resource.detail";
+import { resourceDetail } from "@api/resource.get";
 export default {
 
   components: {

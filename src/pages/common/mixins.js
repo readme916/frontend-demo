@@ -56,7 +56,9 @@ export default {
 
     getLabel: function (data, field) {
       var format = this.columnFormat(field)
-      if (format == "DOUBLE") {
+      if(format=="OBJECT"){
+        return ""
+      }else if (format == "DOUBLE") {
         return this.getValue(data, field).toFixed(4)
       } else if (format == "ENUM") {
         return this.enumLabel(field, this.getValue(data, field))
