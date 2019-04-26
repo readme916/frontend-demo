@@ -25,7 +25,7 @@
 
         </template>
         <div v-if="detail.data && detail.edit">
-          <el-button size="small" type="primary" @click="editSubmit">提交</el-button>
+          <el-button size="small" type="success" @click="editSubmit">提交</el-button>
           <el-button size="small" type="danger" @click="editCancel">取消</el-button>
         </div>
       </el-form>

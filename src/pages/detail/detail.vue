@@ -4,10 +4,8 @@
       <el-aside width="50%">
         <leftDetail :detail="data.leftDetail" @resourceClick="subResourceToggle" />
       </el-aside>
-
       <el-main>
-        <rightDetail :detail="data.rightDetail" />
-
+        <rightDetail :detail="data.rightDetail" @subResourceUpdate="subResourceUpdate" />
       </el-main>
     </el-container>
   </d2-container>
@@ -35,6 +33,10 @@ export default {
 
   methods: {
 
+    subResourceUpdate: function(subResource,data){
+        this.data.leftDetail.data[subResource]=data
+    },
+
     subResourceToggle: function (resourceName) {
       this.data.rightDetail.application = this.data.leftDetail.application
       this.data.rightDetail.resource = this.data.leftDetail.resource
@@ -45,6 +47,7 @@ export default {
       var targetName = this.data.leftDetail.structure.fieldDetailMap[resourceName]
         .targetEntityName;
       this.data.rightDetail.structure = this.$store.state.d2admin.structure.structure[this.data.rightDetail.application][targetName]
+      this.data.rightDetail.detailDisplay = false
     },
 
     switchData(to) {
@@ -65,10 +68,14 @@ export default {
             id: "",
             subResource: "",
             structure: {},
-            data: null,
-            edit: false,
             mode: {},
-            multipleSelection:[],
+            listData: {items:[]},
+            listEdit: false,
+            subResourceItems:[],
+            subResourceId:"",
+            detailDisplay:false,
+            detailData:null,
+            detailEdit:false,
           }
         };
         return data;
@@ -96,6 +103,9 @@ export default {
       this.data = this.datas[application][resource][id];
     }
   },
+
+
+
 
   // 第一次进入或从其他组件对应路由进入时触发
   beforeRouteEnter(to, from, next) {
