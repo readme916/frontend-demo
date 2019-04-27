@@ -53,7 +53,7 @@ export default {
     '$route.matched': {
       handler (val) {
         if(this.$route.params && this.$route.params.application){
-          this.active = "/"+this.$route.params.application+"/"
+          this.active = "/"+this.$route.params.application
           this.$store.commit("d2admin/menu/asideByHeaderClick",this.active)
         }else{
           this.active = val[val.length - 1].path

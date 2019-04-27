@@ -114,20 +114,26 @@ export default {
             "d2admin/structure/resourceStructure"
           ](params.application, params.resource);
           var name = resourceStructure.label
-          newTag.title = name +  params.id.substring(params.id.lastIndexOf("-"))
+          newTag.title = name + params.id.substring(params.id.lastIndexOf("-"))
         } else {
-          var menu = store.state.d2admin.menu.aside.find(e => e.path == decodeURIComponent(fullPath))
-          if (menu) {
-            newTag.title = menu.title
+          var menu1 = store.state.d2admin.menu.header.find(e => e.path == decodeURIComponent(fullPath))
+          if (menu1) {
+            newTag.title = menu1.title
           } else {
-            for (var key in store.state.d2admin.menu.aside) {
-              if (store.state.d2admin.menu.aside[key].children) {
-                var menu2 = store.state.d2admin.menu.aside[key].children.find(e => e.path == decodeURIComponent(fullPath))
-                if (menu2) {
-                  newTag.title = menu2.title
+            var menu2 = store.state.d2admin.menu.aside.find(e => e.path == decodeURIComponent(fullPath))
+            if (menu2) {
+              newTag.title = menu2.title
+            } else {
+              for (var key in store.state.d2admin.menu.aside) {
+                if (store.state.d2admin.menu.aside[key].children) {
+                  var menu3 = store.state.d2admin.menu.aside[key].children.find(e => e.path == decodeURIComponent(fullPath))
+                  if (menu3) {
+                    newTag.title = menu3.title
+                  }
                 }
               }
             }
+
           }
         }
         // 添加进当前显示的页面数组

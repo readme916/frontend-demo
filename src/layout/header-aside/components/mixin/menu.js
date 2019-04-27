@@ -14,8 +14,11 @@ export default {
     handleMenuSelect(index, indexPath) {
       if (index === undefined) {
         this.$message.warning('临时菜单')
-      } else if (/^\/.+\/$/.test(index)) {
+      } else if (/^\/.+$/.test(index)) {
         this.$store.commit('d2admin/menu/asideByHeaderClick', index)
+        this.$router.push({
+         path:index
+        })
       } else if (/^https:\/\/|http:\/\//.test(index)) {
         util.open(index)
       } else {

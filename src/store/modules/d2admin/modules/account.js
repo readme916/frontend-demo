@@ -113,6 +113,8 @@ export default {
 
         await dispatch('d2admin/structure/load', null, { root: true })
 
+        await dispatch('d2admin/server/load', null, { root: true })
+        
         await dispatch('d2admin/menu/asideCollapseLoad', null, { root: true })
 
         // DB -> store 持久化数据加载全局尺寸
