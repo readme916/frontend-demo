@@ -74,6 +74,7 @@ export default {
         { icon: 'times-circle', title: '关闭全部', value: 'all' }
       ],
       contextmenuList: [
+        { icon: 'refresh', title: '刷新本页', value: 'refresh' },
         { icon: 'arrow-left', title: '关闭左侧', value: 'left' },
         { icon: 'arrow-right', title: '关闭右侧', value: 'right' },
         { icon: 'times', title: '关闭其它', value: 'other' },
@@ -146,10 +147,18 @@ export default {
         case 'all':
           this.closeAll()
           break
+        case 'refresh':
+          this.refresh(params)
+          break
         default:
           this.$message.error('无效的操作')
           break
       }
+    },
+
+
+    refresh(p){
+      this.$store.commit("d2admin/page/refresh",p.pageSelect)
     },
     /**
      * @description 接收点击 tab 标签的事件

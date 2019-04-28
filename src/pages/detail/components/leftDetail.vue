@@ -35,7 +35,7 @@
 <script>
 import itemFormatter from '@/pages/common/itemFormatter'
 import formFormatter from '@/pages/common/formFormatter'
-import { resourcePost } from '@/api/resource.post'
+import { resourceUpdate, resourceDelete } from '@/api/resource.post'
 import { resourceDetail } from "@api/resource.get";
 export default {
 
@@ -61,11 +61,33 @@ export default {
 
     eventClick: function (event) {
       if (event.name == "update") {
-        this.toggleEdit()
+        this.toggleEdit(true)
+      } else if (event.name == 'delete') {
+        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          resourceDelete(this.detail.application, this.detail.resource, this.detail.id).then(() => {
+            
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+
+            this.$store.dispatch("d2admin/page/close",{tagName:this.$route.fullPath})
+          })
+
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       }
     },
     resourceClick: function (resourceName) {
-      this.$emit('resourceClick',resourceName)
+      this.$emit('resourceClick', resourceName)
     },
 
     editSubmit: function () {
@@ -78,7 +100,7 @@ export default {
             data[fields[f]] = this.detail.data[fields[f]]
 
           }
-          resourcePost(this.detail.application, this.detail.resource, this.detail.id, data).then(() => {
+          resourceUpdate(this.detail.application, this.detail.resource, this.detail.id, data).then(() => {
             resourceDetail(this.detail.application, this.detail.resource, this.detail.id).then(res => {
               this.detail.data = res
               this.$notify({
@@ -87,7 +109,7 @@ export default {
             })
 
           })
-          this.toggleEdit()
+          this.toggleEdit(false)
         } else {
           return false;
         }
@@ -98,12 +120,12 @@ export default {
     editCancel: function () {
       resourceDetail(this.detail.application, this.detail.resource, this.detail.id).then(res => {
         this.detail.data = res
-        this.toggleEdit()
+        this.toggleEdit(false)
       })
     },
 
-    toggleEdit: function () {
-      this.localDetail.edit = !this.localDetail.edit
+    toggleEdit: function (val) {
+      this.localDetail.edit = val
     },
 
     isEditable: function (name) {

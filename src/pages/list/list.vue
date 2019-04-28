@@ -38,6 +38,19 @@ export default {
       } else {
         return false;
       }
+    },
+    refresh: function(){
+      return this.$store.state.d2admin.page.refresh
+    }
+    
+  },
+
+  watch:{
+    refresh: function(nv,ov){
+      if(nv == this.data.fullPath){
+        this.handleSubmit()
+        this.$store.commit("d2admin/page/refresh",false)
+      }
     }
   },
   methods: {
@@ -52,7 +65,8 @@ export default {
           params: {},
           structure: this.$store.getters["d2admin/structure/resourceStructure"](to.params.application, to.params.resource),
           events: [],
-          fetched: false
+          fetched: false,
+          fullPath: to.fullPath
         };
 
         if (data.structure && data.structure.listFilters) {
@@ -160,7 +174,7 @@ export default {
     if (application && resource) {
       next(instance => {
         instance.switchData(to)
-        if (instance.data.fetched == false) {
+        if (instance.data.fetched == false||to.refresh) {
           instance.handleSubmit()
         }
       });
@@ -174,7 +188,7 @@ export default {
     const resource = to.params.resource;
     if (application && resource) {
       this.switchData(to);
-      if (this.data.fetched == false) {
+      if (this.data.fetched == false||to.refresh) {
         this.handleSubmit()
       }
       next();

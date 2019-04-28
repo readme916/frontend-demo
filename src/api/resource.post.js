@@ -1,7 +1,7 @@
 
 import request from '@/plugin/axios'
 import setting from '@/setting'
-export function resourcePost (application,resource,id,data) {
+export function resourceUpdate (application,resource,id,data) {
   return request({
     url: setting.baseUrl +'/'+application + "/" + setting.restPath +"/" + resource+"/"+id,
     method: 'post',
@@ -9,6 +9,19 @@ export function resourcePost (application,resource,id,data) {
   })
 }
 
+export function resourceDelete (application,resource,id) {
+  return request({
+    url: setting.baseUrl +'/'+application + "/" + setting.restPath +"/" + resource+"/"+id,
+    method: 'delete',
+  })
+}
+export function resourceCreate (application,resource,data) {
+  return request({
+    url: setting.baseUrl +'/'+application + "/" + setting.restPath +"/" + resource,
+    method: 'post',
+    data:data
+  })
+}
 
 export function subResourceCreate (application,resource,id,subResource,data) {
   return request({

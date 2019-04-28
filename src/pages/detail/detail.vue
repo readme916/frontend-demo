@@ -2,10 +2,10 @@
   <d2-container>
     <el-container>
       <el-aside width="50%">
-        <leftDetail :detail="data.leftDetail" @resourceClick="subResourceToggle" />
+        <leftDetail :detail="data.leftDetail" @resourceClick="subResourceToggle" ref='left' />
       </el-aside>
       <el-main>
-        <rightDetail :detail="data.rightDetail" @subResourceUpdate="subResourceUpdate" />
+        <rightDetail :detail="data.rightDetail" @subResourceUpdate="subResourceUpdate" ref='right' />
       </el-main>
     </el-container>
   </d2-container>
@@ -31,10 +31,41 @@ export default {
     };
   },
 
+  computed: {
+    refresh: function () {
+      return this.$store.state.d2admin.page.refresh
+    }
+
+  },
+
+  watch: {
+    refresh: function (nv, ov) {
+      if (nv == this.data.fullPath) {
+        this.$refs.left.editCancel()
+        this.data.rightDetail = {
+          relationship: "",
+          application: "",
+          resource: "",
+          id: "",
+          subResource: "",
+          structure: {},
+          mode: {},
+          listData: { items: [] },
+          listEdit: false,
+          subResourceItems: [],
+          subResourceId: "",
+          detailDisplay: false,
+          detailData: null,
+          detailEdit: false,
+        }
+        this.$store.commit("d2admin/page/refresh", false)
+      }
+    }
+  },
   methods: {
 
-    subResourceUpdate: function(subResource,data){
-        this.data.leftDetail.data[subResource]=data
+    subResourceUpdate: function (subResource, data) {
+      this.data.leftDetail.data[subResource] = data
     },
 
     subResourceToggle: function (resourceName) {
@@ -69,14 +100,15 @@ export default {
             subResource: "",
             structure: {},
             mode: {},
-            listData: {items:[]},
+            listData: { items: [] },
             listEdit: false,
-            subResourceItems:[],
-            subResourceId:"",
-            detailDisplay:false,
-            detailData:null,
-            detailEdit:false,
-          }
+            subResourceItems: [],
+            subResourceId: "",
+            detailDisplay: false,
+            detailData: null,
+            detailEdit: false,
+          },
+          fullPath: to.fullPath
         };
         return data;
       };

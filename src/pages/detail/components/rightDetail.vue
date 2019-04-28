@@ -98,8 +98,11 @@ export default {
   watch: {
     subResource(val) {
       if (this.detail.subResource) {
+        this.loading = true
         subResourceList(this.detail.application, this.detail.resource, this.detail.id, this.detail.subResource).then(res => {
           this.detail.listData = res
+          this.detail.listEdit = false
+          this.loading = false
         })
       }
     }
@@ -186,6 +189,9 @@ export default {
       }
 
     },
+   canRead: function () {
+      return this.detail.mode.read
+    },
 
     canCreate: function () {
       if (this.detail.relationship == 'ONE_TO_MANY' || this.detail.relationship == 'ONE_TO_ONE') {
@@ -217,7 +223,7 @@ export default {
     },
     eventClick: function (event) {
       if (event.name == "update") {
-        this.toggleEdit()
+        this.toggleEdit(true)
       }
     },
 
@@ -241,7 +247,7 @@ export default {
             })
 
           })
-          this.toggleEdit()
+          this.toggleEdit(false)
         } else {
           console.log('error submit!!');
           return false;
@@ -253,12 +259,12 @@ export default {
     editCancel: function () {
       subResourceDetail(this.detail.application, this.detail.resource, this.detail.id, this.detail.subResource, this.detail.subResourceId).then(res => {
         this.detail.detailData = res
-        this.toggleEdit()
+        this.toggleEdit(false)
       })
     },
 
-    toggleEdit: function () {
-      this.detail.detailEdit = !this.detail.detailEdit
+    toggleEdit: function (val) {
+      this.detail.detailEdit = val
     },
 
     isEditable: function (name) {

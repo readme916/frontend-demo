@@ -31,6 +31,7 @@ export default {
         return this.item[this.field]
       },
       set: function (val) {
+        this.$set(this.item,this.field,val)
         this.item[this.field] = val
       }
     }
