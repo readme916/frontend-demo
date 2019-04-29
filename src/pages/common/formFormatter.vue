@@ -1,8 +1,10 @@
 <template>
   <span>
-    <el-input v-if="format=='STRING' || format=='DOUBLE' || format=='INTEGER'" v-model="localItem">
+    <el-input v-if="format=='STRING'" v-model="localItem">
     </el-input>
-    <el-switch v-else-if="format=='BOOLEAN'" v-model="localItem" active-color="#13ce66" inactive-color="#ff4949">
+    <el-input v-else-if="format=='DOUBLE' || format=='INTEGER'" v-model.number="localItem">
+    </el-input>
+    <el-switch v-else-if="format=='BOOLEAN'" v-model="booleanItem" active-color="#13ce66" inactive-color="#ff4949">
     </el-switch>
     <el-date-picker v-else-if="format=='DATE'" v-model="localItem" type="datetime" placeholder="选择日期时间" value-format='yyyy-MM-ddTHH:mm:ss'>
     </el-date-picker>
@@ -28,6 +30,19 @@ export default {
   computed: {
     localItem: {
       get: function () {
+        return this.item[this.field]
+      },
+      set: function (val) {
+        this.$set(this.item,this.field,val)
+        this.item[this.field] = val
+      }
+    },
+    booleanItem: {
+      get: function () {
+      if(this.item[this.field]==undefined){
+        this.$set(this.item,this.field,false)
+        this.item[this.field] = false
+        }
         return this.item[this.field]
       },
       set: function (val) {

@@ -57,6 +57,9 @@ export default {
           detailDisplay: false,
           detailData: null,
           detailEdit: false,
+          loading: false,
+          multipleSelection: [],
+          subResourceCreateData: {}
         }
         this.$store.commit("d2admin/page/refresh", false)
       }
@@ -79,6 +82,7 @@ export default {
         .targetEntityName;
       this.data.rightDetail.structure = this.$store.state.d2admin.structure.structure[this.data.rightDetail.application][targetName]
       this.data.rightDetail.detailDisplay = false
+      this.$refs.right.subResourceToggle()
     },
 
     switchData(to) {
@@ -90,7 +94,9 @@ export default {
             id: to.params.id,
             structure: this.$store.getters["d2admin/structure/resourceStructure"](to.params.application, to.params.resource),
             data: null,
-            edit: false
+            edit: false,
+            multipleSelection: [],
+            clickEvent:null
           },
           rightDetail: {
             relationship: "",
@@ -107,6 +113,9 @@ export default {
             detailDisplay: false,
             detailData: null,
             detailEdit: false,
+            loading: false,
+            multipleSelection: [],
+            subResourceCreateData: {}
           },
           fullPath: to.fullPath
         };

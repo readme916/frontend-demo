@@ -8,27 +8,45 @@
       </div>
     </el-header>
     <el-main>
-      <el-form v-if="detail.data && detail.structure " ref="leftDetailForm" :model="detail.data">
 
-        <template v-for="(item) in detail.structure.detailColumns">
-          <div v-if="!detail.edit || !isEditable(item.prop) " :key="item.prop">
-            <el-form-item :label="item.label" :prop="item.prop">
-              <itemFormatter :application="detail.application" :resource="detail.resource" :field="item.prop" :item="detail.data" />
-              <el-button size="small" type="primary" @click="resourceClick(item.name)" v-if="detail.structure.fieldDetailMap[item.prop] && detail.structure.fieldDetailMap[item.prop].dataType=='OBJECT'">查看</el-button>
-            </el-form-item>
-          </div>
-          <div v-else :key="item.prop">
-            <el-form-item :label="item.label" :prop="item.prop" :rules="detail.structure.fieldDetailMap[item.name].constrants">
-              <formFormatter :application="detail.application" :resource="detail.resource" :field="item.prop" :item="detail.data" :structure="detail.structure" />
-            </el-form-item>
-          </div>
+      <el-row>
+        <el-col :span="20">
+          <el-form v-if="detail.data && detail.structure " ref="leftDetailForm" :model="detail.data">
 
-        </template>
-        <div v-if="detail.data && detail.edit">
-          <el-button size="small" type="success" @click="editSubmit">提交</el-button>
-          <el-button size="small" type="danger" @click="editCancel">取消</el-button>
-        </div>
-      </el-form>
+            <template v-for="(item) in detail.structure.detailColumns">
+              <div v-if="!isObject(item.prop)" :key="item.prop">
+                <div v-if="(!detail.edit || !isEditable(item.prop))">
+                  <el-form-item :label="item.label" :prop="item.prop">
+                    <itemFormatter :application="detail.application" :resource="detail.resource" :field="item.prop" :item="detail.data" />
+                  </el-form-item>
+                </div>
+                <div v-else :key="item.prop">
+                  <el-form-item :label="item.label" :prop="item.prop" :rules="detail.structure.fieldDetailMap[item.name].constrants">
+                    <formFormatter :application="detail.application" :resource="detail.resource" :field="item.prop" :item="detail.data" :structure="detail.structure" />
+                  </el-form-item>
+                </div>
+              </div>
+            </template>
+            <div v-if="detail.data && detail.edit">
+              <el-button size="small" type="success" @click="editSubmit">提交</el-button>
+              <el-button size="small" type="danger" @click="editCancel">取消</el-button>
+            </div>
+          </el-form>
+        </el-col>
+        <el-col :span="4">
+          <el-menu v-if="detail.data" class="el-menu-vertical-demo" @select="handleSelect">
+
+            <template v-for="(item) in detail.structure.detailColumns">
+              <el-menu-item v-if="isReadableObject(item.prop)" :key="item.prop" :index="item.prop">
+                <i class="el-icon-location"></i>
+                <span slot="title">{{item.label}}</span>
+              </el-menu-item>
+            </template>
+
+          </el-menu>
+        </el-col>
+      </el-row>
+
     </el-main>
   </el-container>
 </template>
@@ -59,6 +77,10 @@ export default {
 
   methods: {
 
+
+    handleSelect(key, keyPath) {
+      this.$emit('resourceClick', key)
+    },
     eventClick: function (event) {
       if (event.name == "update") {
         this.toggleEdit(true)
@@ -69,13 +91,13 @@ export default {
           type: 'warning'
         }).then(() => {
           resourceDelete(this.detail.application, this.detail.resource, this.detail.id).then(() => {
-            
+
             this.$message({
               type: 'success',
               message: '删除成功!'
             });
 
-            this.$store.dispatch("d2admin/page/close",{tagName:this.$route.fullPath})
+            this.$store.dispatch("d2admin/page/close", { tagName: this.$route.fullPath })
           })
 
         }).catch(() => {
@@ -85,9 +107,6 @@ export default {
           });
         });
       }
-    },
-    resourceClick: function (resourceName) {
-      this.$emit('resourceClick', resourceName)
     },
 
     editSubmit: function () {
@@ -134,6 +153,20 @@ export default {
         return true;
       } else {
         return false
+      }
+    },
+    isObject: function (name) {
+      return this.detail.structure.fieldDetailMap[name] && this.detail.structure.fieldDetailMap[name].dataType == 'OBJECT'
+    },
+    isReadableObject: function (name) {
+      if (this.detail.structure.fieldDetailMap[name]) {
+        if (this.detail.structure.fieldDetailMap[name].dataType == 'OBJECT') {
+          return this.detail.data.resources[name].read
+        } else {
+          return false
+        }
+      } else {
+        return false;
       }
     }
   }

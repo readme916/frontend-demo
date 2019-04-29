@@ -1,7 +1,7 @@
 <template>
   <d2-container :filename="filename">
     <page-header slot="header" @submit="handleSubmit" ref="header" :structure="data.structure" :params="data.params" />
-    <page-main v-bind="data" @submit="handleSubmit" />
+    <page-main :data="data" @submit="handleSubmit" @multiple="handleMultiple" />
     <page-footer v-show="pager" slot="footer" :current="data.params.page+1" :size="data.params.size" :total="data.total" @change="handlePaginationChange" />
   </d2-container>
 </template>
@@ -39,21 +39,25 @@ export default {
         return false;
       }
     },
-    refresh: function(){
+    refresh: function () {
       return this.$store.state.d2admin.page.refresh
     }
-    
+
   },
 
-  watch:{
-    refresh: function(nv,ov){
-      if(nv == this.data.fullPath){
+  watch: {
+    refresh: function (nv, ov) {
+      if (nv == this.data.fullPath) {
         this.handleSubmit()
-        this.$store.commit("d2admin/page/refresh",false)
+        this.$store.commit("d2admin/page/refresh", false)
       }
     }
   },
   methods: {
+
+    handleMultiple: function(val){
+      this.data.multipleSelection = val
+    },
     switchData(to) {
       var initDataStructure = (to) => {
         let data = {
@@ -66,7 +70,9 @@ export default {
           structure: this.$store.getters["d2admin/structure/resourceStructure"](to.params.application, to.params.resource),
           events: [],
           fetched: false,
-          fullPath: to.fullPath
+          fullPath: to.fullPath,
+          multipleSelection: [],
+          goDetail:false
         };
 
         if (data.structure && data.structure.listFilters) {
@@ -154,6 +160,7 @@ export default {
           });
           this.data.table = res.items;
           this.data.events = res.events;
+          this.data.goDetail = res.goDetail;
           this.data.total = res.total;
           this.data.fetched = true
         })
@@ -164,8 +171,11 @@ export default {
           });
           console.log("err", err);
         });
-    }
+    },
+  
   },
+
+
 
   // 第一次进入或从其他组件对应路由进入时触发
   beforeRouteEnter(to, from, next) {
@@ -174,7 +184,7 @@ export default {
     if (application && resource) {
       next(instance => {
         instance.switchData(to)
-        if (instance.data.fetched == false||to.refresh) {
+        if (instance.data.fetched == false || to.refresh) {
           instance.handleSubmit()
         }
       });
@@ -188,7 +198,7 @@ export default {
     const resource = to.params.resource;
     if (application && resource) {
       this.switchData(to);
-      if (this.data.fetched == false||to.refresh) {
+      if (this.data.fetched == false || to.refresh) {
         this.handleSubmit()
       }
       next();
