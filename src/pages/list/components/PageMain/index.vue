@@ -24,7 +24,7 @@
     </el-table>
 
     <el-dialog :title="data.clickEvent?data.clickEvent.label:''" :visible.sync="dialogFormVisible" :close-on-click-modal=false>
-      <el-form ref="eventForm" :model="eventFormData" v-if="dialogFormVisible">
+      <el-form ref="eventForm" :model="eventFormData" v-if="dialogFormVisible" label-position="right" label-width="100px">
         <template v-for="(item) in data.structure.formColumns">
           <div :key="item.prop" v-if="isEditable(item.prop)">
             <el-form-item :label="item.label" :prop="item.prop" :rules="data.structure.fieldDetailMap[item.prop].constrants">
@@ -32,7 +32,7 @@
             </el-form-item>
           </div>
         </template>
-        <div>
+        <div style="text-align:center">
           <el-button size="small" type="success" @click="formSubmit">提交</el-button>
           <el-button size="small" type="danger" @click="formCancel">取消</el-button>
         </div>
@@ -58,24 +58,7 @@ export default {
     formFormatter
   },
   props: {
-    // table: {
-    //   default: () => []
-    // },
-    // loading: {
-    //   default: false
-    // },
-    // structure: {
-    //   default: () => { }
-    // },
-    // application: "",
-    // resource: "",
-    // params: {
-    //   default: () => { }
-    // },
-    // events: null,
-    // multipleSelection: {
-    //   default: () => []
-    // },
+    
     data: {
       default: () => { }
     }

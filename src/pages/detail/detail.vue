@@ -1,13 +1,14 @@
 <template>
   <d2-container>
-    <el-container>
-      <el-aside width="50%">
+    <el-row>
+      <el-col :span="10">
         <leftDetail :detail="data.leftDetail" @resourceClick="subResourceToggle" ref='left' />
-      </el-aside>
-      <el-main>
+      </el-col>
+      <el-col :span="14">
         <rightDetail :detail="data.rightDetail" @subResourceUpdate="subResourceUpdate" ref='right' />
-      </el-main>
-    </el-container>
+      </el-col>
+
+    </el-row>
   </d2-container>
 </template>
 
@@ -96,14 +97,14 @@ export default {
             data: null,
             edit: false,
             multipleSelection: [],
-            clickEvent:null
+            activeIndex:''
           },
           rightDetail: {
-            relationship: "",
             application: "",
             resource: "",
             id: "",
             subResource: "",
+            relationship: "",
             structure: {},
             mode: {},
             listData: { items: [] },

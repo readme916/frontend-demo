@@ -1,8 +1,7 @@
 <template>
-  <span>
-    <el-input v-if="format=='STRING'" v-model="localItem">
+    <el-input v-if="format=='STRING'" v-model="localItem" placeholder="请输入内容">
     </el-input>
-    <el-input v-else-if="format=='DOUBLE' || format=='INTEGER'" v-model.number="localItem">
+    <el-input v-else-if="format=='DOUBLE' || format=='INTEGER'" v-model.number="localItem" placeholder="请输入内容">
     </el-input>
     <el-switch v-else-if="format=='BOOLEAN'" v-model="booleanItem" active-color="#13ce66" inactive-color="#ff4949">
     </el-switch>
@@ -14,7 +13,6 @@
     </el-select>
 
     <!-- <span v-else>{{getLabel(item,field)}}</span> -->
-  </span>
 </template>
 <script>
 import mixins from "./mixins";

@@ -111,7 +111,11 @@ export default {
     handleFormReset() {
       for (var k in this.params) {
         if (k.endsWith("]")) {
-          this.params[k] = "";
+          if(this.params[k] instanceof Array){
+            this.params[k] = [];
+          }else{
+            this.params[k] = "";
+          }
         }
       }
     }

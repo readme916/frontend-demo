@@ -6,6 +6,7 @@ export default {
   // 支持快捷键 例如 ctrl+shift+s
   
   title : "交易管理端",
+  websocketUrl: "ws://localhost:20000/websocket",
   oauth2LoginUrl: baseUrl+'/oauth2/oauth/token',
   clientId: 'backend',
   clientSecret: 'backendSecret',
@@ -14,6 +15,7 @@ export default {
 
   baseUrl: baseUrl,
   menuUrl: baseUrl + '/firewall/menu',
+  fileUrl: baseUrl + '/zuul/file/upload',
   structureUrl: baseUrl + '/firewall/structure',
   restPath: 'rest',
 

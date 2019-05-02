@@ -10,6 +10,7 @@ import d2Admin from '@/plugin/d2admin'
 
 // 菜单和路由设置
 import router from './router/index'
+import websocket from '@/libs/websocket'
 import {
   frameInRoutes
 } from '@/router/routes'
@@ -36,6 +37,7 @@ new Vue({
     this.$store.commit('d2admin/ua/get')
     // 初始化全屏监听
     this.$store.dispatch('d2admin/fullscreen/listen')
+    websocket.connect()
   }
 
 }).$mount('#app')
