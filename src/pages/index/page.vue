@@ -19,6 +19,7 @@
 <script>
 import D2HelpBtn from './components/d2-help-btn'
 import D2Badge from './components/d2-badge'
+import { createDecipher } from 'crypto';
 export default {
   components: {
     D2HelpBtn,
@@ -29,22 +30,22 @@ export default {
       filename: __filename
     }
   },
-  methods:{
- transfer: function(label){
-      if(label=="UP"){
+  methods: {
+    transfer: function (label) {
+      if (label == "UP") {
         return '正常'
       }
-      if(label == 'OUT_OF_SERVICE'){
+      if (label == 'OUT_OF_SERVICE') {
         return '维护中'
       }
     },
   },
   computed: {
-   
     servers: function () {
       return this.$store.state.d2admin.server.servers
     }
-  }
+  },
+
 }
 </script>
 

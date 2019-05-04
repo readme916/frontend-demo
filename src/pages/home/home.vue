@@ -18,12 +18,7 @@
 import {getServer,postServerOnline,postServerOffline} from '@/api/sys.server'
 export default {
 
-  data() {
-    return {
-      filename: __filename
-    }
-  },
-
+  
   computed: {
     servers: function () {
       return this.$store.state.d2admin.server.servers

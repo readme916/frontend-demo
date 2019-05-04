@@ -1,8 +1,10 @@
 
 import setting from "@/setting"
 import util from '@/libs/util.js'
+import store from '@/store'
 export default {
     connect: function () {
+
         var socket;
         if (typeof (WebSocket) == "undefined") {
           console.log("遗憾：您的浏览器不支持WebSocket");
@@ -16,21 +18,28 @@ export default {
           //ws对应http、wss对应https。  
           const token  = util.cookies.get("token")
           socket = new WebSocket(setting.websocketUrl+"/"+token);
+          let interval
           //连接打开事件    
           socket.onopen = function () {
             console.log("Socket 已打开");
-            socket.send("消息发送测试(From Client)");
+
+            interval = setInterval(() => {
+              socket.send("ping");
+            }, 60000);
           };
           //收到消息事件    
           socket.onmessage = function (msg) {
+            store.dispatch("d2admin/message/add",JSON.parse(msg.data))
             console.log(msg.data);
           };
           //连接关闭事件    
           socket.onclose = function () {
+            clearInterval(interval)
             console.log("Socket已关闭");
           };
           //发生了错误事件    
           socket.onerror = function () {
+            clearInterval(interval)
             alert("Socket发生了错误");
           }
     

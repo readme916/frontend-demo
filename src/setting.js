@@ -17,6 +17,8 @@ export default {
   menuUrl: baseUrl + '/firewall/menu',
   fileUrl: baseUrl + '/zuul/file/upload',
   structureUrl: baseUrl + '/firewall/structure',
+  hasReadMessageUrl: baseUrl+"/websocket/hasReadMessageList",
+  notReadMessageUrl: baseUrl+"/websocket/notReadMessageList",
   restPath: 'rest',
 
   hotkey: {
