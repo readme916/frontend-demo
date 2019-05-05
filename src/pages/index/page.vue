@@ -1,5 +1,5 @@
 <template>
-  <d2-container :filename="filename" class="page">
+  <d2-container class="page">
     <el-table :data="servers" stripe style="width: 100%">
       <el-table-column prop="nickname" label="服务" width="180">
       </el-table-column>
@@ -27,7 +27,7 @@ export default {
   },
   data() {
     return {
-      filename: __filename
+      
     }
   },
   methods: {

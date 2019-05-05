@@ -21,6 +21,15 @@ export function resourceDetail (application,resource,id) {
     method: 'get'
   })
 }
+
+
+export function resourceHistory (id) {
+  return request({
+    url: setting.historyUrl +"/"+id,
+    method: 'get'
+  })
+}
+
 export function subResourceDetail (application,resource,id,subResource,subResourceId) {
   return request({
     url: setting.baseUrl +'/'+application + "/" + setting.restPath +"/" + resource+"/"+id+"/"+subResource+"/"+subResourceId,

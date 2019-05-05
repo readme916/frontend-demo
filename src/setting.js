@@ -19,6 +19,8 @@ export default {
   structureUrl: baseUrl + '/firewall/structure',
   hasReadMessageUrl: baseUrl+"/websocket/hasReadMessageList",
   notReadMessageUrl: baseUrl+"/websocket/notReadMessageList",
+  readMessageUrl: baseUrl+"/websocket/readMessage",
+  historyUrl: baseUrl+"/audit/api",
   restPath: 'rest',
 
   hotkey: {

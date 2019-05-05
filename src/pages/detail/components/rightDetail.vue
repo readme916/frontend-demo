@@ -14,7 +14,7 @@
           <el-form-item v-if="!detail.listEdit">
             <el-button size="small" type="primary" round v-if="canCreate()||canDelete()||canLink()||canUnlink()" @click="linkEdit">更改</el-button>
 
-            <el-button size="small" type="primary" round v-if="detail.listData.goMainUrl" @click="goMainUrlList()">完整列表</el-button>
+            <el-button size="small" type="primary" round v-if="detail.listData.goMainUrl" @click="goMainUrlList()">主页</el-button>
           </el-form-item>
           <div v-else>
 
@@ -28,7 +28,7 @@
           </div>
 
         </el-form>
-        <el-table :data="detail.listData.items" size="mini" stripe style="width: 100%;" @selection-change="handleSelectionClick" ref="rightDetailTable">
+        <el-table v-if="detail.listData.items.length!=0" :data="detail.listData.items" size="mini" stripe style="width: 100%;" @selection-change="handleSelectionClick" ref="rightDetailTable">
           <el-table-column type="selection" width="55" :selectable="selectable"></el-table-column>
           <template v-for="(col) in detail.structure.detailListColumns">
             <el-table-column :show-overflow-tooltip="true" :prop="col.prop" :label="col.label" :key="col.prop" :width="col.width > 0 ? col.width:null" :sortable="col.sortable?'custom':false">
@@ -54,7 +54,7 @@
                 <template v-for="(event) in detail.detailData.events">
                   <el-button size="small" type="primary" round :key="event.label" @click="eventClick(event)">{{event.label}}</el-button>
                 </template>
-                <el-button size="small" type="primary" round v-if="detail.detailData.goMainUrl" @click="goMainUrlDetail()">完整信息</el-button>
+                <el-button size="small" type="primary" round v-if="detail.detailData.goMainUrl" @click="goMainUrlDetail()">主页</el-button>
               </div>
 
             </div>
@@ -65,10 +65,10 @@
               <template v-for="(item) in detail.structure.detailColumns">
                 <div v-if="!detail.detailEdit || !isEditable(item.prop) " :key="item.prop">
                   <el-form-item :label="item.label" :prop="item.prop">
-                      <img v-if="detail.structure.type=='IMAGE' && item.prop=='url'" :src="baseUrl+detail.detailData.url" />
-                      <a v-else-if="detail.structure.type=='FILE' && item.prop=='url'" :href="baseUrl+detail.detailData.url" >{{detail.detailData.name}}</a>
-                    <itemFormatter v-else :application="detail.application" :resource="detail.structure.name" :field="item.prop" :item="detail.detailData"/>
-                    
+                    <img v-if="detail.structure.type=='IMAGE' && item.prop=='url'" :src="baseUrl+detail.detailData.url" />
+                    <a v-else-if="detail.structure.type=='FILE' && item.prop=='url'" :href="baseUrl+detail.detailData.url">{{detail.detailData.name}}</a>
+                    <itemFormatter v-else :application="detail.application" :resource="detail.structure.name" :field="item.prop" :item="detail.detailData" />
+
                   </el-form-item>
                 </div>
                 <div v-else :key="item.prop">
@@ -89,11 +89,11 @@
       <el-dialog :title="detail.structure.label" :visible.sync="dialogFormVisible" :close-on-click-modal=false>
 
         <div v-if="detail.structure.type=='IMAGE'">
-          <el-upload class="avatar-uploader" :action="uploadUrl" :on-success="handleAvatarSuccess" :on-remove="handleAvatarRemove" ref="fileUpload">
+          <el-upload class="avatar-uploader" :action="uploadUrl" :on-success="handleAvatarSuccess" :on-remove="handleAvatarRemove" ref="imageUpload">
             <div v-if="eventFormData.files">
               <img v-for="(file) in eventFormData.files" :src="baseUrl+file.url" class="avatar" :key="file.url">
             </div>
-            <i v-if="detail.relationship=='ONE_TO_MANY' ||!eventFormData.files || eventFormData.files.length==0" class="el-icon-plus avatar-uploader-icon"></i>
+            <i v-if="!eventFormData.files || eventFormData.files.length==0" class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
           <div style="text-align:center">
             <el-button size="small" type="success" @click="fileFormSubmit">提交</el-button>
@@ -202,8 +202,12 @@ export default {
     fileFormSubmit: function () {
 
       if (this.eventFormData.files) {
-
-        this.$refs.fileUpload['uploadFiles'].length = 0
+        if (this.$refs.fileUpload) {
+          this.$refs.fileUpload['uploadFiles'].length = 0
+        }
+        if (this.$refs.imageUpload) {
+          this.$refs.imageUpload['uploadFiles'].length = 0
+        }
         let request = []
         this.eventFormData.files.forEach(file => {
           request.push(subResourceCreate(this.detail.application, this.detail.resource, this.detail.id, this.detail.subResource, file))
@@ -237,7 +241,7 @@ export default {
               this.eventFormData = {}
               subResourceDetail(this.detail.application, this.detail.resource, this.detail.id, this.detail.subResource, this.detail.subResourceId).then(res => {
                 this.detail.detailData = res
-               
+
               })
             })
           }
@@ -246,6 +250,12 @@ export default {
       });
     },
     formCancel: function () {
+      if (this.$refs.fileUpload) {
+        this.$refs.fileUpload['uploadFiles'].length = 0
+      }
+      if (this.$refs.imageUpload) {
+        this.$refs.imageUpload['uploadFiles'].length = 0
+      }
       this.dialogFormVisible = false
       this.eventFormData = {}
     },

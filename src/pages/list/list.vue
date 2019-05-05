@@ -1,5 +1,5 @@
 <template>
-  <d2-container :filename="filename">
+  <d2-container>
     <page-header slot="header" @submit="handleSubmit" ref="header" :structure="data.structure" :params="data.params"/>
     <page-main :data="data" @submit="handleSubmit" @multiple="handleMultiple" />
     <page-footer v-show="pager" slot="footer" :current="data.params.page+1" :size="data.params.size" :total="data.total" @change="handlePaginationChange" />
@@ -22,7 +22,7 @@ export default {
 
   data() {
     return {
-      filename: __filename,
+      
       datas: [],
       data: {
         structure: {},

@@ -8,7 +8,7 @@
         <d2-icon v-else name="dot-circle-o" style="font-size: 20px" />
       </el-button>
     </el-tooltip>
-    <el-dialog :title="tooltipContent"  :visible.sync="dialogVisible" :append-to-body="true">
+    <el-dialog :title="tooltipContent"  :visible.sync="dialogVisible">
 
       <el-tabs v-model="active" type="border" @tab-click="readClick">
         <el-tab-pane label="未读消息" name="notRead">

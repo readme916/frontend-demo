@@ -38,8 +38,6 @@ export default {
     handleClick () {
       const file = this.filename.split('?')[0]
       const url = file
-        ? `https://github.com/d2-projects/d2-admin/blob/master/${file}`
-        : 'https://github.com/d2-projects/d2-admin'
       this.$open(url)
     }
   }

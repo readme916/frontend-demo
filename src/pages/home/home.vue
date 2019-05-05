@@ -1,5 +1,5 @@
 <template>
-  <d2-container :filename="filename" class="page">
+  <d2-container  class="page">
     <span>服务状态：
       <el-tag :type="type">{{status}}</el-tag>
 
