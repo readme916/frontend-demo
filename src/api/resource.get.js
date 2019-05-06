@@ -23,9 +23,9 @@ export function resourceDetail (application,resource,id) {
 }
 
 
-export function resourceHistory (id) {
+export function resourceHistory (id,page,size) {
   return request({
-    url: setting.historyUrl +"/"+id,
+    url: setting.historyUrl +"/"+id+"?page="+page+"&size="+size,
     method: 'get'
   })
 }

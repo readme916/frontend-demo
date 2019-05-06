@@ -4,8 +4,7 @@ export default {
 
     enumLabel: function (field, v) {
       if (field.indexOf(".") != -1) {
-        var targetName = this.resourceStructure.fieldDetailMap[field.split(".")[0]]
-          .targetEntityName;
+        var targetName = this.resourceStructure.fieldDetailMap[field.split(".")[0]].targetEntityName;
         var targetStructure = this.allStructure[this.application][targetName]
         if (Object.keys(targetStructure.fieldDetailMap).length != 0) {
           if (targetStructure.fieldDetailMap[field.split(".")[1]]) {
@@ -35,8 +34,7 @@ export default {
           this.resourceStructure.fieldDetailMap[field.split(".")[0]].dataType ==
           "OBJECT"
         ) {
-          var targetName = this.resourceStructure.fieldDetailMap[field.split(".")[0]]
-            .targetEntityName;
+          var targetName = this.resourceStructure.fieldDetailMap[field.split(".")[0]].targetEntityName;
           var targetStructure = this.allStructure[this.application][targetName]
           if (Object.keys(targetStructure.fieldDetailMap).length != 0) {
             if (targetStructure.fieldDetailMap[field.split(".")[1]]) {

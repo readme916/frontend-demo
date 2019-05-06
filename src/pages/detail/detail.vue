@@ -4,7 +4,7 @@
       <el-col :span="10">
         <leftDetail :detail="data.leftDetail" @resourceClick="subResourceToggle" ref='left' />
         <h4>最近修改历史</h4>
-        <histroyDetail  :detail="data.history" :application="data.leftDetail.application" :resource="data.leftDetail.resource"/>
+        <histroyDetail :detail="data.history" :application="data.leftDetail.application" :resource="data.leftDetail.resource" :id="data.leftDetail.id" ref="histroyDetail"/>
       </el-col>
       <el-col :span="14">
         <rightDetail :detail="data.rightDetail" @subResourceUpdate="subResourceUpdate" ref='right' />
@@ -16,14 +16,14 @@
 </template>
 
 <script>
-import { resourceDetail, subResourceList, subResourceDetail ,resourceHistory} from "@api/resource.get";
+import { resourceDetail, subResourceList, subResourceDetail, resourceHistory } from "@api/resource.get";
 export default {
   name: "detail",
 
   components: {
     leftDetail: () => import("./components/leftDetail"),
     rightDetail: () => import("./components/rightDetail"),
-     histroyDetail: () => import("./components/historyDetail"),
+    histroyDetail: () => import("./components/historyDetail"),
   },
 
   data() {
@@ -31,7 +31,7 @@ export default {
       datas: [],
       data: {
         leftDetail: {},
-        history:{},
+        history: {},
         rightDetail: {}
       }
     };
@@ -67,10 +67,9 @@ export default {
           multipleSelection: [],
           subResourceCreateData: {}
         }
+        this.data['history']['currentRow'] = {}
         this.$store.commit("d2admin/page/refresh", false)
-        resourceHistory(this.data.leftDetail.id).then(res=>{
-          this.data['history']=res
-        })
+        this.$refs.histroyDetail.refresh()
       }
     }
   },
@@ -78,6 +77,7 @@ export default {
 
     subResourceUpdate: function (subResource, data) {
       this.data.leftDetail.data[subResource] = data
+      this.$refs.histroyDetail.refresh()
     },
 
     subResourceToggle: function (resourceName) {
@@ -105,7 +105,7 @@ export default {
             data: null,
             edit: false,
             multipleSelection: [],
-            activeIndex:''
+            activeIndex: ''
           },
           rightDetail: {
             application: "",
@@ -126,11 +126,12 @@ export default {
             multipleSelection: [],
             subResourceCreateData: {}
           },
-          history:{
-            items:[],
-            page:0,
-            size:10,
-            total:0
+          history: {
+            items: [],
+            page: 0,
+            size: 10,
+            total: 0,
+            currentRow: {}
           },
           fullPath: to.fullPath
         };
@@ -156,11 +157,12 @@ export default {
           this.datas[application][resource][id]["leftDetail"]["data"] = res;
         });
 
-        resourceHistory(id).then(res=>{
-          this.datas[application][resource][id]['history']['items']=res.items
-           this.datas[application][resource][id]['history']['page']=res.pageNumber
-           this.datas[application][resource][id]['history']['total']=res.total
-           this.datas[application][resource][id]['history']['size']=res.pageSize
+        resourceHistory(id,0,10).then(res => {
+          this.datas[application][resource][id]['history']['items'] = res.items
+          this.datas[application][resource][id]['history']['page'] = res.pageNumber
+          this.datas[application][resource][id]['history']['total'] = res.total
+          this.datas[application][resource][id]['history']['size'] = res.pageSize
+          this.datas[application][resource][id]['history']['currentRow'] = {}
         })
       }
       this.data = this.datas[application][resource][id];

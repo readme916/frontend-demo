@@ -484,6 +484,7 @@ export default {
           subResourceUpdate(this.detail.application, this.detail.resource, this.detail.id, this.detail.subResource, this.detail.subResourceId, data).then(() => {
             subResourceDetail(this.detail.application, this.detail.resource, this.detail.id, this.detail.subResource, this.detail.subResourceId).then(res => {
               this.detail.detailData = res
+              this.$emit('subResourceUpdate', this.detail.subResource, res)
               this.$notify({
                 title: "数据成功修改"
               });
@@ -491,6 +492,7 @@ export default {
             subResourceList(this.detail.application, this.detail.resource, this.detail.id, this.detail.subResource).then(res => {
               this.detail.listData = res
             })
+             
           })
           this.toggleEdit(false)
         } else {

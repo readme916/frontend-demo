@@ -2,54 +2,32 @@
   <div class="d2-multiple-page-control-group" flex>
     <div class="d2-multiple-page-control-content" flex-box="1">
       <div class="d2-multiple-page-control-content-inner">
-        <d2-contextmenu
-          :visible.sync="contextmenuFlag"
-          :x="contentmenuX"
-          :y="contentmenuY">
-          <d2-contextmenu-list
-            :menulist="tagName === '/index' ? contextmenuListIndex : contextmenuList"
-            @rowClick="contextmenuClick"/>
+        <d2-contextmenu :visible.sync="contextmenuFlag" :x="contentmenuX" :y="contentmenuY">
+          <d2-contextmenu-list :menulist="tagName === '/index' ? contextmenuListIndex : contextmenuList()" @rowClick="contextmenuClick" />
         </d2-contextmenu>
-        <el-tabs
-          class="d2-multiple-page-control"
-          :value="current"
-          type="card"
-          :closable="true"
-          @tab-click="handleClick"
-          @edit="handleTabsEdit"
-          @contextmenu.native="handleContextmenu">
-          <el-tab-pane
-            v-for="page in opened"
-            :key="page.fullPath"
-            :label="page.meta.title || page.title"
-            :name="page.fullPath"/>
+        <el-tabs class="d2-multiple-page-control" :value="current" type="card" :closable="true" @tab-click="handleClick" @edit="handleTabsEdit" @contextmenu.native="handleContextmenu">
+          <el-tab-pane v-for="page in opened" :key="page.fullPath" :label="page.meta.title || page.title" :name="page.fullPath" />
         </el-tabs>
       </div>
     </div>
-    <div
-      class="d2-multiple-page-control-btn"
-      flex-box="0">
-      <el-dropdown
-        size="default"
-        split-button
-        @click="closeAll"
-        @command="command => handleControlItemClick(command)">
-        <d2-icon name="times-circle"/>
+    <div class="d2-multiple-page-control-btn" flex-box="0">
+      <el-dropdown size="default" split-button @click="closeAll" @command="command => handleControlItemClick(command)">
+        <d2-icon name="times-circle" />
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="left">
-            <d2-icon name="arrow-left" class="d2-mr-10"/>
+            <d2-icon name="arrow-left" class="d2-mr-10" />
             关闭左侧
           </el-dropdown-item>
           <el-dropdown-item command="right">
-            <d2-icon name="arrow-right" class="d2-mr-10"/>
+            <d2-icon name="arrow-right" class="d2-mr-10" />
             关闭右侧
           </el-dropdown-item>
           <el-dropdown-item command="other">
-            <d2-icon name="times" class="d2-mr-10"/>
+            <d2-icon name="times" class="d2-mr-10" />
             关闭其它
           </el-dropdown-item>
           <el-dropdown-item command="all">
-            <d2-icon name="times-circle" class="d2-mr-10"/>
+            <d2-icon name="times-circle" class="d2-mr-10" />
             全部关闭
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -65,7 +43,7 @@ export default {
     D2Contextmenu: () => import('../contextmenu'),
     D2ContextmenuList: () => import('../contextmenu/components/contentmenuList')
   },
-  data () {
+  data() {
     return {
       contextmenuFlag: false,
       contentmenuX: 0,
@@ -73,13 +51,7 @@ export default {
       contextmenuListIndex: [
         { icon: 'times-circle', title: '关闭全部', value: 'all' }
       ],
-      contextmenuList: [
-        { icon: 'refresh', title: '刷新本页', value: 'refresh' },
-        { icon: 'arrow-left', title: '关闭左侧', value: 'left' },
-        { icon: 'arrow-right', title: '关闭右侧', value: 'right' },
-        { icon: 'times', title: '关闭其它', value: 'other' },
-        { icon: 'times-circle', title: '关闭全部', value: 'all' }
-      ],
+
       tagName: '/index'
     }
   },
@@ -90,6 +62,26 @@ export default {
     ])
   },
   methods: {
+
+    contextmenuList: function () {
+      if (this.tagName == this.current) {
+        return [
+          { icon: 'refresh', title: '刷新本页', value: 'refresh' },
+          { icon: 'arrow-left', title: '关闭左侧', value: 'left' },
+          { icon: 'arrow-right', title: '关闭右侧', value: 'right' },
+          { icon: 'times', title: '关闭其它', value: 'other' },
+          { icon: 'times-circle', title: '关闭全部', value: 'all' }
+        ]
+      } else {
+        return [
+          { icon: 'arrow-left', title: '关闭左侧', value: 'left' },
+          { icon: 'arrow-right', title: '关闭右侧', value: 'right' },
+          { icon: 'times', title: '关闭其它', value: 'other' },
+          { icon: 'times-circle', title: '关闭全部', value: 'all' }
+        ]
+      }
+
+    },
     ...mapActions('d2admin/page', [
       'close',
       'closeLeft',
@@ -100,7 +92,7 @@ export default {
     /**
      * @description 右键菜单功能点击
      */
-    handleContextmenu (event) {
+    handleContextmenu(event) {
       let target = event.target
       // 解决 https://github.com/d2-projects/d2-admin/issues/54
       let flag = false
@@ -121,13 +113,13 @@ export default {
     /**
      * @description 右键菜单的row-click事件
      */
-    contextmenuClick (command) {
+    contextmenuClick(command) {
       this.handleControlItemClick(command, this.tagName)
     },
     /**
      * @description 接收点击关闭控制上选项的事件
      */
-    handleControlItemClick (command, tagName = null) {
+    handleControlItemClick(command, tagName = null) {
       if (tagName) {
         this.contextmenuFlag = false
       }
@@ -157,13 +149,13 @@ export default {
     },
 
 
-    refresh(p){
-      this.$store.commit("d2admin/page/refresh",p.pageSelect)
+    refresh(p) {
+      this.$store.commit("d2admin/page/refresh", p.pageSelect)
     },
     /**
      * @description 接收点击 tab 标签的事件
      */
-    handleClick (tab, event) {
+    handleClick(tab, event) {
       // 找到点击的页面在 tag 列表里是哪个
       const page = this.opened.find(page => page.fullPath === tab.name)
       const { name, params, query } = page
@@ -174,7 +166,7 @@ export default {
     /**
      * @description 点击 tab 上的删除按钮触发这里 首页的删除按钮已经隐藏 因此这里不用判断是 index
      */
-    handleTabsEdit (tagName, action) {
+    handleTabsEdit(tagName, action) {
       if (action === 'remove') {
         this.close({
           tagName,
