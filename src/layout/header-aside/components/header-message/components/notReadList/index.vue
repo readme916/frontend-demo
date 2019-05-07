@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="messageList" border stripe style="width: 100%" size="mini" highlight-current-row @current-change="handleRowChange">
+    <el-table :data="messageList" border stripe style="width: 100%" size="mini" highlight-current-row @current-change="handleRowChange" ref="messageList">
 
       <el-table-column prop="type" label="类型" width="80px" align="center" :filters="[
         { text: '个人消息', value: 'MESSAGE' },
@@ -42,7 +42,7 @@
 
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="danger" @click="dialogFormVisible = false">未读</el-button>
+        <el-button type="danger" @click="notReadIt">未读</el-button>
         <el-button type="primary" @click="readIt">已读</el-button>
       </div>
     </el-dialog>
@@ -73,8 +73,14 @@ export default {
   },
   methods: {
 
+    notReadIt(){
+        this.$refs.messageList.setCurrentRow();
+        this.dialogFormVisible = false
+    },
+
     readIt() {
       this.dialogFormVisible = false
+       this.$refs.messageList.setCurrentRow();
       readMessage(this.currentRow.uuid).then(res => {
         this.messageList.splice(this.messageList.indexOf(this.currentRow),1)
        

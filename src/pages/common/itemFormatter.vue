@@ -1,5 +1,5 @@
 <template>
-  <el-tag v-if="format=='BOOLEAN'" :type="value?'success':'danger'">{{label}}
+  <el-tag v-if="format=='BOOLEAN' && !booleanCancel" :type="value?'success':'danger'">{{label}}
   </el-tag>
   <span v-else>{{label}}</span>
 </template>
@@ -14,6 +14,7 @@ export default {
     resource: "",
     field: "",
     item: {},
+    booleanCancel:false
    
   },
   

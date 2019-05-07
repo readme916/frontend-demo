@@ -125,6 +125,7 @@ export default {
               this.dialogFormVisible = false
               this.eventFormData = {}
             })
+             this.$emit('historyUpate')
           })
 
         } else {
@@ -153,7 +154,7 @@ export default {
               type: 'success',
               message: '删除成功!'
             });
-
+            
             this.$store.dispatch("d2admin/page/close", { tagName: this.$route.fullPath })
           })
 
@@ -187,7 +188,7 @@ export default {
                 title: "数据成功修改"
               });
             })
-
+            this.$emit('historyUpate')
           })
           this.toggleEdit(false)
         } else {

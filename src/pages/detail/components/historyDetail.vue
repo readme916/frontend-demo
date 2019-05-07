@@ -59,7 +59,7 @@
               <el-col :span="5">{{getResourceLabel(key)}}</el-col>
               <el-col :span="9" style="text-align:center">
                 <el-tag type="danger">
-                  <itemFormatter :application="application" :resource="resource" :field="key" :item="getOldObject(key,item)" />
+                  <itemFormatter :application="application" :resource="resource" :field="key" :item="getOldObject(key,item)" :booleanCancel="true"/>
                 </el-tag>
               </el-col>
               <el-col :span="1">
@@ -67,7 +67,7 @@
               </el-col>
               <el-col :span="9" style="text-align:center">
                 <el-tag type="success">
-                  <itemFormatter :application="application" :resource="resource" :field="key" :item="getNewObject(key,item)" />
+                  <itemFormatter :application="application" :resource="resource" :field="key" :item="getNewObject(key,item)" :booleanCancel="true"/>
                 </el-tag>
               </el-col>
             </el-row>
@@ -76,7 +76,7 @@
               <el-col :span="5">{{getResourceLabel(detail.currentRow.subResource)}} - {{getSubResourceLabel(key)}}</el-col>
               <el-col :span="9" style="text-align:center">
                 <el-tag type="danger">
-                  <itemFormatter :application="application" :resource="getSubResourceName()" :field="key" :item="getOldObject(key,item)" />
+                  <itemFormatter :application="application" :resource="getSubResourceName()" :field="key" :item="getOldObject(key,item)" :booleanCancel="true"/>
                 </el-tag>
               </el-col>
               <el-col :span="1">
@@ -84,7 +84,7 @@
               </el-col>
               <el-col :span="9" style="text-align:center">
                 <el-tag type="success">
-                  <itemFormatter :application="application" :resource="getSubResourceName()" :field="key" :item="getNewObject(key,item)" />
+                  <itemFormatter :application="application" :resource="getSubResourceName()" :field="key" :item="getNewObject(key,item)" :booleanCancel="true"/>
                 </el-tag>
               </el-col>
             </el-row>
@@ -97,7 +97,7 @@
                       <el-col :span="10">{{getSubResourceLabel(key2)}}</el-col>
                       <el-col :span="10">
                         <el-tag type="danger">
-                          <itemFormatter :application="application" :resource="getSubResourceName()" :field="key2" :item="item.oldValue" />
+                          <itemFormatter :application="application" :resource="getSubResourceName()" :field="key2" :item="item.oldValue" :booleanCancel="true"/>
                         </el-tag>
                       </el-col>
                     </el-row>
@@ -117,7 +117,7 @@
                       <el-col :span="10">{{getSubResourceLabel(key2)}}</el-col>
                       <el-col :span="10">
                         <el-tag type="success">
-                          <itemFormatter :application="application" :resource="getSubResourceName()" :field="key2" :item="item.newValue" />
+                          <itemFormatter :application="application" :resource="getSubResourceName()" :field="key2" :item="item.newValue" :booleanCancel="true"/>
                         </el-tag>
                       </el-col>
                     </el-row>
@@ -137,7 +137,7 @@
                       <el-col :span="10">{{getSubResourceLabel(key2)}}</el-col>
                       <el-col :span="10">
                         <el-tag type="danger">
-                          <itemFormatter :application="application" :resource="getSubResourceName()" :field="key2" :item="item.oldValue[0]" />
+                          <itemFormatter :application="application" :resource="getSubResourceName()" :field="key2" :item="item.oldValue[0]" :booleanCancel="true"/>
                         </el-tag>
                       </el-col>
                     </el-row>
@@ -157,7 +157,7 @@
                       <el-col :span="10">{{getSubResourceLabel(key2)}}</el-col>
                       <el-col :span="10">
                         <el-tag type="success">
-                          <itemFormatter :application="application" :resource="getSubResourceName()" :field="key2" :item="item.newValue[0]" />
+                          <itemFormatter :application="application" :resource="getSubResourceName()" :field="key2" :item="item.newValue[0]" :booleanCancel="true"/>
                         </el-tag>
                       </el-col>
                     </el-row>

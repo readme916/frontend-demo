@@ -179,11 +179,11 @@ export default {
 
     sortChange: function (column, prop, order) {
       if (column.order == 'descending') {
-        this.params.sort = column.prop + ",desc"
+        this.data.params.sort = column.prop + ",desc"
       } else if (column.order == 'ascending') {
-        this.params.sort = column.prop + ",asc"
+        this.data.params.sort = column.prop + ",asc"
       } else {
-        this.params.sort = ''
+        this.data.params.sort = ''
       }
       this.$emit("submit");
     },

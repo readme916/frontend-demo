@@ -1,11 +1,14 @@
 <template>
   <d2-container class="page">
     <el-table :data="servers" stripe style="width: 100%">
-      <el-table-column prop="nickname" label="服务" width="180">
+      <el-table-column prop="nickname" label="服务名" width="250">
       </el-table-column>
       <el-table-column prop="number" label="数量" width="180">
       </el-table-column>
-      <el-table-column prop="status" label="状态">
+
+      <el-table-column prop="description" label="简介">
+      </el-table-column>
+      <el-table-column prop="status" label="状态" width="180">
 
         <template slot-scope="scope">
           <el-tag :type="scope.row[scope.column.property]=='UP'?'success':'danger'">{{transfer(scope.row[scope.column.property])}}

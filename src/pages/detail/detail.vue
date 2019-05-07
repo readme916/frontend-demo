@@ -2,9 +2,9 @@
   <d2-container>
     <el-row>
       <el-col :span="10">
-        <leftDetail :detail="data.leftDetail" @resourceClick="subResourceToggle" ref='left' />
+        <leftDetail :detail="data.leftDetail" @resourceClick="subResourceToggle" ref='left' @historyUpdate="historyUpdate" />
         <h4>最近修改历史</h4>
-        <histroyDetail :detail="data.history" :application="data.leftDetail.application" :resource="data.leftDetail.resource" :id="data.leftDetail.id" ref="histroyDetail"/>
+        <histroyDetail :detail="data.history" :application="data.leftDetail.application" :resource="data.leftDetail.resource" :id="data.leftDetail.id" ref="histroyDetail" />
       </el-col>
       <el-col :span="14">
         <rightDetail :detail="data.rightDetail" @subResourceUpdate="subResourceUpdate" ref='right' />
@@ -75,6 +75,9 @@ export default {
   },
   methods: {
 
+    historyUpdate: function () {
+      this.$refs.histroyDetail.refresh()
+    },
     subResourceUpdate: function (subResource, data) {
       this.data.leftDetail.data[subResource] = data
       this.$refs.histroyDetail.refresh()
@@ -157,7 +160,7 @@ export default {
           this.datas[application][resource][id]["leftDetail"]["data"] = res;
         });
 
-        resourceHistory(id,0,10).then(res => {
+        resourceHistory(id, 0, 10).then(res => {
           this.datas[application][resource][id]['history']['items'] = res.items
           this.datas[application][resource][id]['history']['page'] = res.pageNumber
           this.datas[application][resource][id]['history']['total'] = res.total
