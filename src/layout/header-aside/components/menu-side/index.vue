@@ -2,8 +2,6 @@
   <div class="d2-layout-header-aside-menu-side">
     <el-menu
       :collapse="asideCollapse"
-      :unique-opened="false"
-      :default-openeds="openeds"
       :default-active="active"
       ref="menu"
       @select="handleMenuSelect"
@@ -48,7 +46,6 @@ export default {
   },
   data() {
     return {
-      openeds:[0,1,2,3,4,5,6,7],
       active: "",
       asideHeight: 300,
       BS: null

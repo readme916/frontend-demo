@@ -1,6 +1,6 @@
 <template>
   <d2-container>
-    <page-header slot="header" @submit="handleSubmit" ref="header" :structure="data.structure" :params="data.params"/>
+    <page-header slot="header" @submit="handleSubmit" ref="header" :structure="data.structure" :params="data.params" v-show="Object.keys(data.structure.listFilters).length!=0" />
     <page-main :data="data" @submit="handleSubmit" @multiple="handleMultiple" />
     <page-footer v-show="pager" slot="footer" :current="data.params.page+1" :size="data.params.size" :total="data.total" @change="handlePaginationChange" />
   </d2-container>

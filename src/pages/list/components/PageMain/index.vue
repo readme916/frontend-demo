@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :inline="true" size="mini">
+    <el-form :inline="true" size="mini" v-if="data.events.length > 0 ">
       <el-form-item v-if="data.events">
         <el-button v-for="(event) in data.events" size="small" type="primary" round :key="event.label" @click='handleEventClick(event)'>{{event.label}}</el-button>
       </el-form-item>
@@ -24,7 +24,7 @@
     </el-table>
 
     <el-dialog :title="data.clickEvent?data.clickEvent.label:''" :visible.sync="dialogFormVisible" :close-on-click-modal=false>
-      <el-form ref="eventForm" :model="eventFormData" v-if="dialogFormVisible" label-position="right" label-width="100px">
+      <el-form ref="eventForm" :model="eventFormData" v-if="dialogFormVisible" label-position="right"  label-width="160px" size="mini">
         <template v-for="(item) in data.structure.formColumns">
           <div :key="item.prop" v-if="isEditable(item.prop)">
             <el-form-item :label="item.label" :prop="item.prop" :rules="data.structure.fieldDetailMap[item.prop].constrants">
