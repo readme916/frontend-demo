@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-header>
+    <el-header height="auto">
       <div v-if="detail.data">
         <div v-if="!detail.edit">
           <template v-for="(event) in detail.data.events">
@@ -17,7 +17,7 @@
 
       <el-row>
         <el-col :span="19">
-          <el-form v-if="detail.data && detail.structure " ref="leftDetailForm" :model="detail.data" label-position="right" label-width="100px">
+          <el-form v-if="detail.data && detail.structure " ref="leftDetailForm" :model="detail.data" label-position="right" label-width="160px" size="mini">
 
             <template v-for="(item) in detail.structure.detailColumns">
               <div v-if="!isObject(item.prop)" :key="item.prop">
@@ -56,7 +56,7 @@
 
     </el-main>
     <el-dialog :title="clickEvent?clickEvent.label:''" :visible.sync="dialogFormVisible" :close-on-click-modal=false>
-      <el-form ref="eventForm" :model="eventFormData" v-if="dialogFormVisible" label-position="right" label-width="100px">
+      <el-form ref="eventForm" :model="eventFormData" v-if="dialogFormVisible" label-position="right" label-width="160px" size="mini">
         <template v-for="(item) in detail.structure.formColumns">
           <div :key="item.prop" v-if="isEventEditable(item.prop)">
             <el-form-item :label="item.label" :prop="item.prop" :rules="detail.structure.fieldDetailMap[item.prop].constrants">

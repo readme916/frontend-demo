@@ -11,10 +11,11 @@ import d2Admin from '@/plugin/d2admin'
 // 菜单和路由设置
 import router from './router/index'
 import websocket from '@/libs/websocket'
+
 import {
   frameInRoutes
 } from '@/router/routes'
-
+import '@/assets/style/magicsoft.css'
 
 // 核心插件
 Vue.use(d2Admin)
