@@ -49,16 +49,8 @@
                 <el-button size="default" @click="submit" type="primary" class="button-login">登录</el-button>
               </el-form>
             </el-card>
-            <p
-              class="page-login--options"
-              flex="main:justify cross:center">
-              <span><d2-icon name="question-circle"/> 忘记密码</span>
-              <span>注册用户</span>
-            </p>
-            <!-- 快速登录按钮 -->
-            <el-button class="page-login--quick" size="default" type="info" @click="dialogVisible = true">
-              快速选择用户（测试功能）
-            </el-button>
+           
+          
           </div>
         </div>
         <div class="page-login--content-footer">
@@ -67,25 +59,11 @@
             <a href="#">隐私</a>
             <a href="#">条款</a>
           </p>
-          <p class="page-login--content-footer-copyright">
-            Copyright <d2-icon name="copyright"/> 2018 D2 Projects 开源组织出品 <a href="https://github.com/FairyEver">@FairyEver</a>
-          </p>
+         
         </div>
       </div>
     </div>
-    <el-dialog
-      title="快速选择用户"
-      :visible.sync="dialogVisible"
-      width="400px">
-      <el-row :gutter="10" style="margin: -20px 0px -10px 0px;">
-        <el-col v-for="(user, index) in users" :key="index" :span="8">
-          <div class="page-login--quick-user" @click="handleUserBtnClick(user)">
-            <d2-icon name="user-circle-o"/>
-            <span>{{user.name}}</span>
-          </div>
-        </el-col>
-      </el-row>
-    </el-dialog>
+    
   </div>
 </template>
 
@@ -103,8 +81,8 @@ export default {
       users: [
         {
           name: '管理员',
-          username: 'root',
-          password: 'root'
+          username: '',
+          password: ''
         },
         {
           name: '编辑',
@@ -119,8 +97,8 @@ export default {
       ],
       // 表单
       formLogin: {
-        username: 'root',
-        password: 'root',
+        username: '',
+        password: '',
         code: 'v9am'
       },
       // 校验
