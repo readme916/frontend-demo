@@ -14,7 +14,7 @@
           <el-form-item v-if="!detail.listEdit">
             <el-button size="small" type="primary" round v-if="canCreate()||canDelete()||canLink()||canUnlink()" @click="linkEdit">更改</el-button>
 
-            <el-button size="small" type="primary" round v-if="detail.listData.goMainUrl" @click="goMainUrlList()">主页</el-button>
+            <el-button size="small" type="primary" round v-if="detail.listData && detail.listData.goMainUrl" @click="goMainUrlList()">主页</el-button>
           </el-form-item>
           <div v-else>
 
@@ -28,7 +28,7 @@
           </div>
 
         </el-form>
-        <el-table v-if="detail.listData.items.length!=0" :data="detail.listData.items" size="mini" stripe style="width: 100%;" @selection-change="handleSelectionClick" ref="rightDetailTable">
+        <el-table v-if="detail.listData.items && detail.listData.items.length!=0" :data="detail.listData.items" size="mini" stripe style="width: 100%;" @selection-change="handleSelectionClick" ref="rightDetailTable">
           <el-table-column type="selection" width="55" :selectable="selectable"></el-table-column>
           <template v-for="(col) in detail.structure.detailListColumns">
             <el-table-column :show-overflow-tooltip="true" :prop="col.prop" :label="col.label" :key="col.prop" :width="col.width > 0 ? col.width:null" :sortable="col.sortable?'custom':false">

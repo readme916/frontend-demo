@@ -215,6 +215,7 @@ export default {
   },
   methods: {
     refresh: function () {
+      
       resourceHistory(this.id, this.detail.page, this.detail.size).then(res => {
         this.detail['items'] = res.items
         this.detail['total'] = res.total

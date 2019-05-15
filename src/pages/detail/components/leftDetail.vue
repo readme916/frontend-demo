@@ -124,8 +124,9 @@ export default {
               })
               this.dialogFormVisible = false
               this.eventFormData = {}
+              this.$emit('historyUpdate')
             })
-             this.$emit('historyUpate')
+            
           })
 
         } else {
@@ -184,11 +185,12 @@ export default {
           resourceUpdate(this.detail.application, this.detail.resource, this.detail.id, data).then(() => {
             resourceDetail(this.detail.application, this.detail.resource, this.detail.id).then(res => {
               this.detail.data = res
+              this.$emit('historyUpdate')
               this.$notify({
                 title: "数据成功修改"
               });
             })
-            this.$emit('historyUpate')
+           
           })
           this.toggleEdit(false)
         } else {

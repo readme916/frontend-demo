@@ -49,7 +49,16 @@ export default {
     },
 
     getValue: function (data, field) {
-      return eval("data." + field);
+      if(field.indexOf(".")!=-1){
+        var sp = field.split(".")
+        if(eval("data." + sp[0])){
+          return  eval("data." + field);
+        }else{
+          console.log(field+"对象不存在")
+        }
+      }else{
+        return eval("data." + field);
+      }
     },
 
     getLabel: function (data, field) {
@@ -67,7 +76,11 @@ export default {
           return '否'
         }
       } else if (format == "DATE") {
-        return this.$options.filters.date_format(new Date(this.getValue(data, field)));
+        if(this.getValue(data, field)){
+          return this.$options.filters.date_format(new Date(this.getValue(data, field)));
+        }else{
+          return ""
+        }
       } else {
         return this.getValue(data, field);
       }
