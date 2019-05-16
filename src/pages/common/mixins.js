@@ -69,7 +69,7 @@ export default {
         if (this.getValue(data, field)) {
           return this.getValue(data, field).toFixed(4)
         } else {
-          return ""
+          return 0
         }
       } else if (format == "ENUM") {
         if (this.getValue(data, field)) {
