@@ -49,26 +49,34 @@ export default {
     },
 
     getValue: function (data, field) {
-      if(field.indexOf(".")!=-1){
+      if (field.indexOf(".") != -1) {
         var sp = field.split(".")
-        if(eval("data." + sp[0])){
-          return  eval("data." + field);
-        }else{
-          console.log(field+"对象不存在")
+        if (eval("data." + sp[0])) {
+          return eval("data." + field);
+        } else {
+          console.log(field + "对象不存在")
         }
-      }else{
+      } else {
         return eval("data." + field);
       }
     },
 
     getLabel: function (data, field) {
       var format = this.columnFormat(field)
-      if(format=="OBJECT"){
+      if (format == "OBJECT") {
         return ""
-      }else if (format == "DOUBLE") {
-        return this.getValue(data, field).toFixed(4)
+      } else if (format == "DOUBLE") {
+        if (this.getValue(data, field)) {
+          return this.getValue(data, field).toFixed(4)
+        } else {
+          return ""
+        }
       } else if (format == "ENUM") {
-        return this.enumLabel(field, this.getValue(data, field))
+        if (this.getValue(data, field)) {
+          return this.enumLabel(field, this.getValue(data, field))
+        } else {
+          return null
+        }
       } else if (format == "BOOLEAN") {
         if (this.getValue(data, field)) {
           return '是'
@@ -76,9 +84,9 @@ export default {
           return '否'
         }
       } else if (format == "DATE") {
-        if(this.getValue(data, field)){
+        if (this.getValue(data, field)) {
           return this.$options.filters.date_format(new Date(this.getValue(data, field)));
-        }else{
+        } else {
           return ""
         }
       } else {
