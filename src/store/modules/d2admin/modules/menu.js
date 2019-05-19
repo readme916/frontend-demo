@@ -2,6 +2,7 @@
 import setting from '@/setting.js'
 import util from '@/libs/util'
 import getMenu from '@/api/sys.menu'
+import { stat } from 'fs';
 export default {
   namespaced: true,
   state: {
@@ -12,7 +13,9 @@ export default {
 
     tree: [],
     // 侧边栏收缩
-    asideCollapse: setting.menu.asideCollapse
+    asideCollapse: setting.menu.asideCollapse,
+
+    openeds:[]
   },
 
 
@@ -114,6 +117,7 @@ export default {
       var parent = state.tree.find(e => e.path == index)
       if (parent && parent.children) {
         state.aside = parent.children
+        state.openeds = [index]
       }
     }
   }
