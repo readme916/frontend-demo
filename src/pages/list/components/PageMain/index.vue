@@ -1,12 +1,17 @@
 <template>
   <div>
-    <el-form :inline="true" size="mini" v-if="data.events.length > 0 ">
-      <el-form-item v-if="data.events">
+    <el-form :inline="true" size="mini" >
+      <el-form-item v-if="data.events && data.events.length > 0 ">
         <el-button v-for="(event) in data.events" size="small" type="primary" round :key="event.label" @click='handleEventClick(event)'>{{event.label}}</el-button>
       </el-form-item>
-
+      <el-form-item>
+      <el-button type="primary"  size="small" round @click="exportExcel">
+        <d2-icon name="download"/>
+        导出本页Excel
+      </el-button>
+      </el-form-item>
     </el-form>
-
+     
     <el-table :row-key="getRowKey" reserve-selection="true" :data="data.table" v-loading="data.loading" size="mini" stripe style="width: 100%;" @selection-change="handleSelectionChange" @sort-change='sortChange' ref='list'>
       <el-table-column type="selection" width="55"></el-table-column>
       <template v-for="(col) in data.structure.listColumns">
@@ -68,21 +73,22 @@ export default {
     return {
       eventFormData: {},
       clickEvent: null,
-      dialogFormVisible: false,
-      downloadColumns: [
-        { label: "卡密", prop: "key" },
-        { label: "面值", prop: "value" },
-        { label: "状态", prop: "type" },
-        { label: "管理员", prop: "admin" },
-        { label: "管理员备注", prop: "adminNote" },
-        { label: "创建时间", prop: "dateTimeCreat" },
-        { label: "使用状态", prop: "used" },
-        { label: "使用时间", prop: "dateTimeUse" }
-      ]
+      dialogFormVisible: false
     };
   },
 
   methods: {
+
+    exportExcel () {
+      this.$export.excel({
+        columns: this.data.structure.listColumns,
+        data: this.data.table,
+        title:this.data.structure.label
+      })
+        .then(() => {
+          this.$message('导出表格成功')
+        })
+    },
 
     getRowKey: function (row) {
       return row.uuid

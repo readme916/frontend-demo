@@ -16,10 +16,10 @@ import {
   frameInRoutes
 } from '@/router/routes'
 import '@/assets/style/magicsoft.css'
-
+import pluginExport from '@d2-projects/vue-table-export'
 // 核心插件
 Vue.use(d2Admin)
-
+Vue.use(pluginExport)
 
 new Vue({
   router,

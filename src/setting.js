@@ -1,4 +1,4 @@
-var baseUrl = 'http://192.168.0.20';
+var baseUrl = 'http://localhost';
 
 
 export default {
@@ -6,7 +6,7 @@ export default {
   // 支持快捷键 例如 ctrl+shift+s
   
   title : "交易管理端",
-  websocketUrl: "ws://192.168.0.20:20000/websocket",
+  websocketUrl: "ws://localhost:20000/websocket",
   oauth2LoginUrl: baseUrl+'/oauth2/oauth/token',
   clientId: 'backend',
   clientSecret: 'backendSecret',
