@@ -47,7 +47,14 @@ export default {
         return this.resourceStructure.fieldDetailMap[field].dataType;
       }
     },
+    getRichEditor: function (field) {
 
+        if(this.resourceStructure.fieldDetailMap[field].richEditor){
+          return true;
+        }else{
+          return false;
+        }
+    },
     getValue: function (data, field) {
       if (field.indexOf(".") != -1) {
         var sp = field.split(".")
@@ -109,6 +116,9 @@ export default {
     },
     format: function () {
       return this.columnFormat(this.field)
+    },
+    richEditor: function () {
+      return this.getRichEditor(this.field)
     }
   }
 
