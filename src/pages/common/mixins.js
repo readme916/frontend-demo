@@ -49,7 +49,7 @@ export default {
     },
     getRichEditor: function (field) {
 
-        if(this.resourceStructure.fieldDetailMap[field].richEditor){
+        if(this.resourceStructure.fieldDetailMap[field] && this.resourceStructure.fieldDetailMap[field].richEditor){
           return true;
         }else{
           return false;
