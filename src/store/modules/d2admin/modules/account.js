@@ -71,6 +71,8 @@ export default {
         util.cookies.remove('Authorization')
         // 清空 vuex 用户信息
         await dispatch('d2admin/user/set', {}, { root: true })
+        await dispatch('d2admin/menu/clear', null, { root: true })
+        await dispatch('d2admin/structure/clear', null, { root: true })
         // 跳转路由
         vm.$router.push({
           name: 'login'

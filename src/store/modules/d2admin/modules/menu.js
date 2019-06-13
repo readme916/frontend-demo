@@ -38,7 +38,18 @@ export default {
         resolve()
       })
     },
-
+    clear({
+      state,
+      dispatch
+    }) {
+      return new Promise(async resolve => {
+       state.header=[]
+       state.aside=[]
+       state.tree=[]
+       state.openeds = []
+        resolve()
+      })
+    },
     /**
      * 设置侧边栏展开或者收缩
      * @param {Object} state vuex state

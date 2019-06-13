@@ -20,7 +20,15 @@ export default {
         resolve()
       })
     },
-
+    clear({
+      state,
+      dispatch
+    }) {
+      return new Promise(async resolve => {
+       state.structure={}
+        resolve()
+      })
+    },
   }
 
 }
