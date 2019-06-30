@@ -8,7 +8,7 @@
             <d2-layout-header-aside-menu-sub v-else :menu="menu" :key="menuIndex"/>
           </template>
 
-          <li class="el-menu-item" v-if="roleName=='developer'"><a href="http://tree.tienchain.com" target="_blank">社区节点</a></li>
+          <li class="el-menu-item" v-if="roleName=='developer' || roleName=='founder'"><a href="http://tree.tienchain.com" target="_blank">社区节点</a></li>
         </el-menu>
       </div>
     </div>
