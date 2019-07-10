@@ -2,16 +2,6 @@
   <d2-container>
     <el-table :data="list" border stripe style="width: 100%" size="mini" highlight-current-row @current-change="handleRowChange">
 
-      <el-table-column prop="type" label="类型" width="80px" align="center">
-        <template slot-scope="scope">
-          <el-tag v-if="scope.row.type === 'NOTICE'" size="mini" type="danger">
-          通知
-          </el-tag>
-          <el-tag v-else size="mini" type="primary">
-           消息
-          </el-tag>
-        </template>
-      </el-table-column>
 
       <el-table-column label="标题" prop="title" width="140px" :show-overflow-tooltip="true">
       </el-table-column>
