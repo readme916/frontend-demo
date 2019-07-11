@@ -23,10 +23,6 @@
 
      <el-dialog :title="currentRow.title" :visible.sync="dialogFormVisible" append-to-body v-if="currentRow">
       <el-form>
-        <el-form-item label="消息类型">
-          <span v-if="currentRow.type=='MESSAGE'">个人消息</span>
-          <span v-else-if="currentRow.type=='NOTICE'">系统通知</span>
-        </el-form-item>
         <el-form-item label="通知时间">
           {{currentRow.createdAt}}
         </el-form-item>
