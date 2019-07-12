@@ -1,7 +1,7 @@
 import util from '@/libs/util.js'
 import { AccountLogin } from '@api/sys.login'
 import { Message } from 'element-ui'
-
+import websocket from '@/libs/websocket'
 
 export default {
   namespaced: true,
@@ -41,6 +41,9 @@ export default {
 
             // 用户登录后从持久化数据加载一系列的设置
             await dispatch('load')
+            dispatch('d2admin/socket/close', null, { root: true })
+            websocket.connect()
+            
             // 结束
             resolve()
           })
@@ -80,6 +83,7 @@ export default {
       }
       // 判断是否需要确认
       if (confirm) {
+        
         commit('d2admin/gray/set', true, { root: true })
         vm.$confirm('注销当前账户吗?  打开的标签页和用户设置将会被保存。', '确认操作', {
           confirmButtonText: '确定注销',
@@ -88,6 +92,7 @@ export default {
         })
           .then(() => {
             commit('d2admin/gray/set', false, { root: true })
+            dispatch('d2admin/socket/close', null, { root: true })
             logout()
           })
           .catch(() => {
@@ -95,6 +100,7 @@ export default {
             vm.$message('放弃注销用户')
           })
       } else {
+        dispatch("d2admin/socket/close")
         logout()
       }
     },

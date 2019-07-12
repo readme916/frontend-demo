@@ -5,7 +5,7 @@ import store from '@/store'
 export default {
     connect: function () {
 
-        var socket;
+        var socket
         if (typeof (WebSocket) == "undefined") {
           console.log("遗憾：您的浏览器不支持WebSocket");
         } else {
@@ -18,6 +18,9 @@ export default {
           //ws对应http、wss对应https。  
           const token  = util.cookies.get("token")
           socket = new WebSocket(setting.websocketUrl+"/"+token);
+
+          store.dispatch("d2admin/socket/add",socket)
+
           let interval
           //连接打开事件    
           socket.onopen = function () {
@@ -48,5 +51,6 @@ export default {
             socket.close();
           };
         }
-      }
+      },
+
 }
