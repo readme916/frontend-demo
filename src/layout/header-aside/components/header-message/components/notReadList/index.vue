@@ -63,13 +63,15 @@ export default {
 
     readIt() {
       this.dialogFormVisible = false
+      // console.log(this.currentRow)
       readMessage(this.currentRow.uuid).then(res => {
         this.messageList.splice(this.messageList.indexOf(this.currentRow),1)
       })
-       this.$refs.messageList.setCurrentRow();
+      //  this.$refs.messageList.setCurrentRow();
     },
     handleRowChange(row) {
       this.currentRow = row
+      // console.log(this.currentRow)
       this.dialogFormVisible = true
     },
     filterType(value, row) {
