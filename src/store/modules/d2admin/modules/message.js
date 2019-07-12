@@ -18,14 +18,14 @@ export default {
     add ({ state }, info ) {
       // store 赋值
       state.list.unshift({
-        // 记录类型
-        type: info.type, // or error
+
         // 信息
         title: info.title,
         // 错误对象
         content: info.content,
         // vue 实例
         url: info.url,
+        uuid: info.uuid,
         
         // 当前时间
         createdAt: dayjs(info.createdAt).format('YYYY-MM-DD HH:mm:ss')
