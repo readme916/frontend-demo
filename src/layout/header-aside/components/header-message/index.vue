@@ -13,10 +13,10 @@
       <el-tabs v-model="active" type="border" @tab-click="readClick">
         <el-tab-pane label="未读消息" name="notRead">
           <div class="d2-mb-10">
-            <el-button type="danger" size="mini" @click="handleMessageAllRead">
+            <!-- <el-button type="danger" size="mini" @click="handleMessageAllRead">
               <d2-icon name="trash-o" />
               全部已读
-            </el-button>
+            </el-button> -->
           </div>
 
           <notReadList />
